@@ -7,28 +7,53 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+
+
+
+     
+      <div className = 'Intro_Box'>
+
+
+        <center>
+
+          <h1 className = 'heading'>
+
+            Welcome to The Hidden Labyrinth
+
+          </h1>
+
+          <p>
+
+            You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow. 
+
+          </p>
+
+
+          <p>
+
+            Venture deep into the heart of the labyrinth, where a treasure lies hidden. 
+            <br />
+            Navigate the maze, find the center, and make your way to the exit to claim your victory.
+
+          </p>
+
+        </center>
+
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+
+      <div className = "Outer_Box">
+
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          hello?
         </p>
+
+
+ 
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
+
   )
 }
 
