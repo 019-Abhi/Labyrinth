@@ -4,7 +4,49 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  function Room({ row, col }) {
+
+    if (row == 4 && col == 4){
+      return (
+
+        <div className="Room">
+          <p>
+            TREASURE!
+          </p>
+        </div>
+  
+      )
+    }
+
+    else{
+      return (
+
+        <div className="Room">
+          <p>
+            This is a single room of row {row} and col {col}
+          </p>
+        </div>
+  
+      )
+    }
+
+  }
+
+  
+  
+
+
+
+  const rows = 9;
+  const cols = 9;
+
+
+
+  const labyrinth_in_2d_array = Array.from({ length: rows }, (_, row) =>
+    Array.from({ length: cols }, (_, col) => <Room key={`${row}-${col}`} row={row} col={col} />)
+  );
+
 
   return (
     <div>
@@ -23,18 +65,13 @@ function App() {
 
           </h1>
 
-          <p>
+          <p className = 'Intro_Text'>
 
-            You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow. 
-
-          </p>
-
-
-          <p>
-
-            Venture deep into the heart of the labyrinth, where a treasure lies hidden. 
+            You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow
             <br />
-            Navigate the maze, find the center, and make your way to the exit to claim your victory.
+            Venture deep into the heart of the labyrinth, where a treasure lies hidden
+            <br />
+            Navigate to the center, and make your way to the exit to claim your victory
 
           </p>
 
@@ -45,13 +82,16 @@ function App() {
 
       <div className = "Outer_Box">
 
-        <p>
-          hello?
-        </p>
 
+      {labyrinth_in_2d_array.map((row, rowIndex) => (
+          <div key={rowIndex} className="row">
+            {row}
+          </div>
+        ))}
+      </div>
 
  
-      </div>
+      
     </div>
 
   )
