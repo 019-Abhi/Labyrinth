@@ -12,8 +12,16 @@ body, html{
   margin: 0;
   padding: 0;
   height: fit-content;
+  width: auto;
 
 }
+
+.body, html::-webkit-scrollbar{
+
+  display: none;
+
+}
+
 
 .Outer_Box, .Intro_Box, .heading{
 
@@ -26,20 +34,33 @@ body, html{
 .Outer_Box{
 
 
-  height: 90vh;
-  width: 190vh;
+  height: 98vh;
+  width: 95vw;
 
   margin: 5vh;
-  margin-top: 20vh;
+  margin-top: 8vh;
+  margin-bottom: 1.5vh;
 
   background-color: rgb(136, 34, 34);
 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  
+  overflow-x : scroll;
+  overflow-y: scroll;
+
+  border-radius: 4vh;
+
+
 }
+
+
 
 .Intro_Box{
 
-  background-color: rgb(76, 141, 141);
-  width : 190vh;
+  width : 95vw;
   height: 40vh;
   margin: 5vh;
 
@@ -49,6 +70,36 @@ body, html{
 .Intro_Box .heading{
 
   height: 10vh;
-  color: #E0E1DD;
+  color: #272323;
 
+}
+
+.Intro_Box .Intro_Text{
+
+  color: #272323;
+  font-size: 3.5vh;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bolder;
+
+}
+
+.Room{
+
+  height : 60vh;
+  width: 30vw;
+
+  background-color: #272323;
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #000000;
+  flex-shrink: 0;
+
+}
+
+.row {
+  display: flex; /* Arrange rooms in a row */
 }
