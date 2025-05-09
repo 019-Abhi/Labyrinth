@@ -71,7 +71,6 @@ body, html{
 
   height: 10vh;
   color: #272323;
-<<<<<<< HEAD
 
 }
 
@@ -114,37 +113,3 @@ body, html{
 
 }
 
-=======
-
-}
-
-.Intro_Box .Intro_Text{
-
-  color: #272323;
-  font-size: 3.5vh;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-weight: bolder;
-
-}
-
-.Room{
-
-  height : 60vh;
-  width: 30vw;
-
-  background-color: #272323;
-
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 2px solid #000000;
-  flex-shrink: 0;
-
-}
-
-.row {
-  display: flex; /* Arrange rooms in a row */
-}
->>>>>>> 42def4f5046c6d3a9b324a3b76c14f276da905b3

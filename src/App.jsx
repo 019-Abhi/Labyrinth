@@ -98,16 +98,11 @@ function App() {
           </h1>
 
           <p className = 'Intro_Text'>
-          <p className = 'Intro_Text'>
 
             You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow
             <br />
             Venture deep into the heart of the labyrinth, where a treasure lies hidden
-            You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow
             <br />
-            Venture deep into the heart of the labyrinth, where a treasure lies hidden
-            <br />
-            Navigate to the center, and make your way to the exit to claim your victory
             Navigate to the center, and make your way to the exit to claim your victory
 
           </p>
