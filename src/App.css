@@ -85,8 +85,8 @@ body, html{
 
 .Room{
 
-  height : 60vh;
-  width: 30vw;
+  height : 65vh;
+  width: 40vw;
 
   background-color: #272323;
 
@@ -101,5 +101,15 @@ body, html{
 }
 
 .row {
-  display: flex; /* Arrange rooms in a row */
+  display: flex; 
 }
+
+
+.Up_Button{
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+}
+

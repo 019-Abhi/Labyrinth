@@ -1,52 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import { useState, useEffect } from 'react';
 import './App.css'
 
 function App() {
 
-  function Room({ row, col }) {
-
-    if (row == 4 && col == 4){
-      return (
-
-        <div className="Room">
-          <p>
-            TREASURE!
-          </p>
-        </div>
-  
-      )
-    }
-
-    else{
-      return (
-
-        <div className="Room">
-          <p>
-            This is a single room of row {row} and col {col}
-          </p>
-        </div>
-  
-      )
-    }
-
+  const InitialPosition = {
+    "Row" : 0,
+    "Col" : 4
   }
 
-  
-  
 
+  const [CurrentPosition, setCurrentPosition] = useState(InitialPosition)
+  const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
 
+  const CharacterEmoji = '🐶'
 
   const rows = 9;
   const cols = 9;
 
+  useEffect(() => {
+    function handleKeyDown(event) {
+      let newRow = CurrentPosition.Row;
+      let newCol = CurrentPosition.Col;
+
+      switch (event.key) {
+
+        case 'ArrowUp':
+          newRow = Math.max(0, CurrentPosition.Row - 1);
+          break;
+
+        case 'ArrowDown':
+          newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+          break;
+
+        case 'ArrowLeft':
+          newCol = Math.max(0, CurrentPosition.Col - 1);
+          break;
+
+        case 'ArrowRight':
+          newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+          break;
+
+        default:
+          return;
+      }
+
+      const newPosition = { Row: newRow, Col: newCol };
+      setCurrentPosition(newPosition);
+      setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]));
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
 
 
-  const labyrinth_in_2d_array = Array.from({ length: rows }, (_, row) =>
-    Array.from({ length: cols }, (_, col) => <Room key={`${row}-${col}`} row={row} col={col} />)
-  );
 
+  function Room({ row, col, CurrentPosition, CharacterEmoji }) {
+
+    const isTreasure = row === 4 && col === 4;
+    const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
+    const key = `${row}-${col}`;
+
+
+    return (
+      <div className="Room">
+        <p>
+          {isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}
+        </p>
+        {isCurrent && <>{CharacterEmoji}</>}
+      </div>
+    );
+
+
+  }
+
+  
 
   return (
     <div>
@@ -80,20 +112,26 @@ function App() {
 
       </div>
 
-      <div className = "Outer_Box">
+      <div className = "Outer_Box" style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, auto)` }}>
+        {[...VisitedRooms].map(roomKey => {
 
+          const [rowStr, colStr] = roomKey.split('-');
+          const row = parseInt(rowStr, 10);
+          const col = parseInt(colStr, 10);
+          return (
 
-      {labyrinth_in_2d_array.map((row, rowIndex) => (
-          <div key={rowIndex} className="row">
-            {row}
-          </div>
-        ))}
+            <Room
+              key={roomKey}
+              row={row}
+              col={col}
+              CurrentPosition={CurrentPosition}
+              CharacterEmoji={CharacterEmoji}
+            />
+
+          );
+        })}
       </div>
-
- 
-      
     </div>
-
   )
 }
 
