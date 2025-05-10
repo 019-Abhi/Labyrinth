@@ -1,19 +1,16 @@
-
 import { useState, useEffect } from 'react';
 import './App.css'
 
 function App() {
-
   const InitialPosition = {
-    "Row" : 0,
-    "Col" : 4
-  }
+    "Row": 0,
+    "Col": 4
+  };
 
-
-  const [CurrentPosition, setCurrentPosition] = useState(InitialPosition)
+  const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
 
-  const CharacterEmoji = '🐶'
+  const CharacterEmoji = '🐶';
 
   const rows = 9;
   const cols = 9;
@@ -24,23 +21,18 @@ function App() {
       let newCol = CurrentPosition.Col;
 
       switch (event.key) {
-
         case 'ArrowUp':
           newRow = Math.max(0, CurrentPosition.Row - 1);
           break;
-
         case 'ArrowDown':
           newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
           break;
-
         case 'ArrowLeft':
           newCol = Math.max(0, CurrentPosition.Col - 1);
           break;
-
         case 'ArrowRight':
           newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
           break;
-
         default:
           return;
       }
@@ -57,82 +49,84 @@ function App() {
     };
   }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
 
-
-
-  function Room({ row, col, CurrentPosition, CharacterEmoji }) {
-
+  function RoomContent({ row, col, CurrentPosition, CharacterEmoji }) {
     const isTreasure = row === 4 && col === 4;
     const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
-    const key = `${row}-${col}`;
-
 
     return (
-      <div className="Room">
+      <>
         <p>
           {isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}
         </p>
         {isCurrent && <>{CharacterEmoji}</>}
-      </div>
+      </>
     );
-
-
   }
-
-  
 
   return (
     <div>
-
-
-
-     
-      <div className = 'Intro_Box'>
-
-
+      <div className='Intro_Box'>
         <center>
-
-          <h1 className = 'heading'>
-
+          <h1 className='heading'>
             Welcome to The Hidden Labyrinth
-
           </h1>
-
-          <p className = 'Intro_Text'>
-
+          <p className='Intro_Text'>
             You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow
             <br />
             Venture deep into the heart of the labyrinth, where a treasure lies hidden
             <br />
             Navigate to the center, and make your way to the exit to claim your victory
-
           </p>
-
         </center>
-
-
       </div>
 
-      <div className = "Outer_Box" style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, auto)` }}>
-        {[...VisitedRooms].map(roomKey => {
+      <div className="Outer_Box">
 
-          const [rowStr, colStr] = roomKey.split('-');
-          const row = parseInt(rowStr, 10);
-          const col = parseInt(colStr, 10);
-          return (
+        {Array.from({ length: rows }).flatMap((_, row) =>
+          Array.from({ length: cols }).map((__, col) => {
+            const key = `${row}-${col}`;
+            const isVisited = VisitedRooms.has(key);
+            const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
+            const isTreasure = row === 4 && col === 4;
+    
+      {/*      
+            return (
+              <div key={key} className="Room">
+                {isVisited ? (
+                  <>
+                    <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
+                    {isCurrent && <>{CharacterEmoji}</>}
+                  </>
+                ) : null}
+    
+              </div>
+           );
+  
+*/}
+            
+            return (
 
-            <Room
-              key={roomKey}
-              row={row}
-              col={col}
-              CurrentPosition={CurrentPosition}
-              CharacterEmoji={CharacterEmoji}
-            />
+              <div>
+                {isVisited? (
 
-          );
-        })}
+                 <div key = {key} className = 'Room_Visited'>
+                    <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
+                    {isCurrent && <>{CharacterEmoji}</>}
+                  </div>
+
+                ) : null}
+              </div>
+
+
+             
+            );
+
+
+          })
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
