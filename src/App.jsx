@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css'
 
 function App() {
@@ -15,32 +15,50 @@ function App() {
   const rows = 9;
   const cols = 9;
 
+  const gridRef = useRef(null);
+  const LastRoomRef = useRef(null);
+  const [RightArrowPressed, setRightArrowPressed] = useState(false);
+
   useEffect(() => {
     function handleKeyDown(event) {
       let newRow = CurrentPosition.Row;
       let newCol = CurrentPosition.Col;
+      let handled = false;
 
       switch (event.key) {
+
         case 'ArrowUp':
           newRow = Math.max(0, CurrentPosition.Row - 1);
+          handled = true;
           break;
+
         case 'ArrowDown':
           newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+          handled = true
           break;
+
         case 'ArrowLeft':
           newCol = Math.max(0, CurrentPosition.Col - 1);
+          handled = true;
           break;
+
         case 'ArrowRight':
           newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+          handled = true;
+          setRightArrowPressed(true);
           break;
+          
         default:
           return;
       }
 
       const newPosition = { Row: newRow, Col: newCol };
       setCurrentPosition(newPosition);
-      setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]));
-    }
+      setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
+      if (handled) {
+        event.preventDefault();
+      } 
+    } 
 
     document.addEventListener('keydown', handleKeyDown);
 
@@ -49,19 +67,19 @@ function App() {
     };
   }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
 
-  function RoomContent({ row, col, CurrentPosition, CharacterEmoji }) {
-    const isTreasure = row === 4 && col === 4;
-    const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
 
-    return (
-      <>
-        <p>
-          {isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}
-        </p>
-        {isCurrent && <>{CharacterEmoji}</>}
-      </>
-    );
-  }
+  useEffect(() => {
+    
+    const currentRoomId = `${CurrentPosition.Row}-${CurrentPosition.Col}`;
+    const currentRoomElement = document.getElementById(currentRoomId);
+
+    if(gridRef.current && currentRoomElement){
+      currentRoomElement.scrollIntoView();
+    }
+
+  }, [CurrentPosition])
+
+
 
   return (
     <div>
@@ -80,50 +98,40 @@ function App() {
         </center>
       </div>
 
-      <div className="Outer_Box">
 
-        {Array.from({ length: rows }).flatMap((_, row) =>
-          Array.from({ length: cols }).map((__, col) => {
-            const key = `${row}-${col}`;
-            const isVisited = VisitedRooms.has(key);
-            const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
-            const isTreasure = row === 4 && col === 4;
-    
-      {/*      
-            return (
-              <div key={key} className="Room">
-                {isVisited ? (
-                  <>
-                    <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
-                    {isCurrent && <>{CharacterEmoji}</>}
-                  </>
-                ) : null}
-    
-              </div>
-           );
-  
-*/}
+      <div className = "Outer_Box_Flex">
+        <div ref = {gridRef} className = "Outer_Box_Grid">
+
+          {Array.from({ length: rows }).flatMap((_, row) =>
+            Array.from({ length: cols }).map((__, col) => {
+              const key = `${row}-${col}`;
+              const isVisited = VisitedRooms.has(key);
+              const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
+              const isTreasure = row === 4 && col === 4;
             
-            return (
+              return (
 
-              <div>
-                {isVisited? (
+                <div key={key}>
+                    {isVisited ? (
+                      <div
+                        id={key} // Add an ID to the visited room
+                        className = "Room_Visited"
+                        ref = {LastRoomRef}
+                      >
+                        <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
+                        {isCurrent && <>{CharacterEmoji}</>}
+                      </div>
+                    ) : null}
+                </div>
+                
 
-                 <div key = {key} className = 'Room_Visited'>
-                    <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
-                    {isCurrent && <>{CharacterEmoji}</>}
-                  </div>
-
-                ) : null}
-              </div>
+              
+              );
 
 
-             
-            );
-
-
-          })
-        )}
+            })
+          )}
+        </div>
       </div>
     </div>
   );

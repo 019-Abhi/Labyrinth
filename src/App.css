@@ -27,22 +27,50 @@ html::-webkit-scrollbar {
   justify-content: center;
 }
 
-.Outer_Box {
-  height: 98vh;
-  width: 95vw;
-  margin: 5vh;
-  margin-top: 8vh;
-  margin-bottom: 1.5vh;
-  background-color: rgb(136, 34, 34);
-
+.Outer_Box_Flex .Outer_Box_Grid {
+  
   display: grid;
   grid-template-columns: repeat(9, auto); 
   grid-template-rows: repeat(9, auto);
 
   overflow-x: auto;
   overflow-y: auto;
-  border-radius: 4vh;
+  border: 2px solid red;
 }
+
+.Outer_Box_Flex{
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  height: 98vh;
+  width: 95vw;
+  margin: 5vh;
+  margin-top: 8vh;
+  margin-bottom: 1.5vh;
+
+  border-radius: 4vh;
+
+  overflow-y: auto;
+  overflow-x: auto;
+
+  
+
+}
+/*
+.Outer_Box_Flex::-webkit-scrollbar{
+
+  display: none;
+
+}
+
+.Outer_Box_Grid::-webkit-scrollbar{
+
+  display: none;
+
+}
+*/
 
 .Intro_Box {
   width: 95vw;
@@ -81,12 +109,4 @@ html::-webkit-scrollbar {
 
   background-color: #1B263B;
 
-}
-
-
-
-.Up_Button {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
 }
