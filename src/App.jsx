@@ -11,13 +11,20 @@ function App() {
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
 
   const CharacterEmoji = '🐶';
-
   const rows = 9;
   const cols = 9;
 
   const gridRef = useRef(null);
   const LastRoomRef = useRef(null);
-  const [RightArrowPressed, setRightArrowPressed] = useState(false);
+
+  function FloorSelector(){
+
+    const FloorList = ['Floor1', 'Floor2', 'Floor3', 'Floor4', 'Floor5', 'Floor6', 'Floor7', 'Floor8', 'Floor9', 'Floor10'];
+    const RandomIndex = Math.floor(Math.random() * FloorList.length);
+    return FloorList[RandomIndex];
+
+  };
+
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -34,7 +41,7 @@ function App() {
 
         case 'ArrowDown':
           newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
-          handled = true
+          handled = true;
           break;
 
         case 'ArrowLeft':
@@ -45,7 +52,6 @@ function App() {
         case 'ArrowRight':
           newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
           handled = true;
-          setRightArrowPressed(true);
           break;
           
         default:
@@ -113,13 +119,14 @@ function App() {
 
                 <div key={key}>
                     {isVisited ? (
-                      <div
-                        id={key} // Add an ID to the visited room
-                        className = "Room_Visited"
-                        ref = {LastRoomRef}
-                      >
-                        <p>{isTreasure ? 'TREASURE!' : `This is room (${row}, ${col})`}</p>
-                        {isCurrent && <>{CharacterEmoji}</>}
+                      <div id = {key} className = "Room_Visited" ref = {LastRoomRef}>
+                      
+                        <div className = {FloorSelector()} >
+                          {isCurrent && <center className = 'Emoji'>{CharacterEmoji}</center>}
+                        </div>
+
+
+                        <p>{isTreasure ? 'TREASURE!' : null}</p>
                       </div>
                     ) : null}
                 </div>

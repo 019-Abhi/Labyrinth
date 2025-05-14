@@ -35,7 +35,6 @@ html::-webkit-scrollbar {
 
   overflow-x: auto;
   overflow-y: auto;
-  border: 2px solid red;
 }
 
 .Outer_Box_Flex{
@@ -58,7 +57,7 @@ html::-webkit-scrollbar {
   
 
 }
-/*
+
 .Outer_Box_Flex::-webkit-scrollbar{
 
   display: none;
@@ -70,7 +69,7 @@ html::-webkit-scrollbar {
   display: none;
 
 }
-*/
+
 
 .Intro_Box {
   width: 95vw;
@@ -105,8 +104,64 @@ html::-webkit-scrollbar {
   flex-shrink: 0;
 } 
 
-.Room_Unvisited{
+.Emoji{
 
-  background-color: #1B263B;
+  font-size: 6em;
 
 }
+
+.Room_Visited .Floor1,
+.Room_Visited .Floor2,
+.Room_Visited .Floor3,
+.Room_Visited .Floor4,
+.Room_Visited .Floor5,
+.Room_Visited .Floor6,
+.Room_Visited .Floor7,
+.Room_Visited .Floor8,
+.Room_Visited .Floor9,
+.Room_Visited .Floor10{
+
+  height: 100%;
+  width: 100%;
+}
+
+.Floor1{
+  background-color: #6b9e28;
+}
+
+.Floor2{
+  background-color: #1B263B;
+}
+
+.Floor3{
+  background-color: aquamarine;
+}
+
+.Floor4{
+  background-color: #7a1c48;
+}
+
+.Floor5{
+  background-color: #70a842;
+}
+
+.Floor6{
+  background-color: #c4937d;
+}
+
+.Floor7{
+  background-color: #6b9e28;
+}
+
+.Floor8{
+  background-color: #000000;
+}
+
+.Floor9{
+  background-color: #abbddd;
+}
+
+.Floor10{
+  background-color: #ac8383;
+}
+
