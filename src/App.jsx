@@ -170,7 +170,7 @@ function App() {
                     <div id = {key} className = "Room_Visited">
                       
                       <div className = {Floors[key]} >
-                        {isCurrent && <center className = 'Emoji'>{CharacterEmoji}</center>}
+                        {isCurrent && <div className = 'Emoji'>{CharacterEmoji}</div>}
                       </div>
 
 
