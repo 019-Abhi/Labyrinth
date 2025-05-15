@@ -2,21 +2,27 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css'
 
 function App() {
+
+  //Initial position
   const InitialPosition = {
     "Row": 0,
     "Col": 4
   };
 
+  //Decalaration statements
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
+  const [Floors, setFloors] = useState({})
+
 
   const CharacterEmoji = '🐶';
   const rows = 9;
   const cols = 9;
 
   const gridRef = useRef(null);
-  const LastRoomRef = useRef(null);
 
+
+  //Literally a floor selector
   function FloorSelector(){
 
     const FloorList = ['Floor1', 'Floor2', 'Floor3', 'Floor4', 'Floor5', 'Floor6', 'Floor7', 'Floor8', 'Floor9', 'Floor10'];
@@ -26,11 +32,13 @@ function App() {
   };
 
 
+  //To check which arrow key is pressed; updates CurrentPosition and VisitedRooms
   useEffect(() => {
     function handleKeyDown(event) {
       let newRow = CurrentPosition.Row;
       let newCol = CurrentPosition.Col;
       let handled = false;
+
 
       switch (event.key) {
 
@@ -58,14 +66,39 @@ function App() {
           return;
       }
 
+      //Updates CurrentPosition and VisitedRooms
       const newPosition = { Row: newRow, Col: newCol };
       setCurrentPosition(newPosition);
       setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
+
+
+
+      //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms
+      setFloors(prev => {
+
+        
+
+        const key = `${newRow}-${newCol}`;
+
+        if (prev[key]){
+          return prev;
+        };
+
+        return {
+          ...prev,
+          [key] : FloorSelector()
+        };
+
+      });
+
+
+      //Prevents scrolling when arrow keys are pressed
       if (handled) {
         event.preventDefault();
       } 
     } 
 
+    //Cleans up the keydown listener after use, saves memory (I think)
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
@@ -74,6 +107,7 @@ function App() {
   }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
 
 
+  //To scroll new room into view
   useEffect(() => {
     
     const currentRoomId = `${CurrentPosition.Row}-${CurrentPosition.Col}`;
@@ -87,8 +121,11 @@ function App() {
 
 
 
+  //HTML beings *applause*
   return (
     <div>
+
+      {/* Intro box to give an intro about the game */}
       <div className='Intro_Box'>
         <center>
           <h1 className='heading'>
@@ -105,6 +142,8 @@ function App() {
       </div>
 
 
+
+      {/* Div where the game resides */}
       <div className = "Outer_Box_Flex">
         <div ref = {gridRef} className = "Outer_Box_Grid">
 
@@ -118,20 +157,19 @@ function App() {
               return (
 
                 <div key={key}>
-                    {isVisited ? (
-                      <div id = {key} className = "Room_Visited" ref = {LastRoomRef}>
+
+                  {isVisited ? (
+                    <div id = {key} className = "Room_Visited">
                       
-                        <div className = {FloorSelector()} >
-                          {isCurrent && <center className = 'Emoji'>{CharacterEmoji}</center>}
-                        </div>
-
-
-                        <p>{isTreasure ? 'TREASURE!' : null}</p>
+                      <div className = {Floors[key]} >
+                        {isCurrent && <center className = 'Emoji'>{CharacterEmoji}</center>}
                       </div>
-                    ) : null}
-                </div>
-                
 
+
+                      <p>{isTreasure ? 'TREASURE!' : null}</p>
+                    </div>
+                  ) : null}
+                </div>          
               
               );
 
