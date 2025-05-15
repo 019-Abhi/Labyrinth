@@ -31,6 +31,16 @@ function App() {
 
   };
 
+  useEffect(() => {
+
+    const key = `${InitialPosition.Row}-${InitialPosition.Col}`;
+    setFloors({
+      [key]: FloorSelector()
+    });
+
+  }, []);
+
+
 
   //To check which arrow key is pressed; updates CurrentPosition and VisitedRooms
   useEffect(() => {
@@ -75,8 +85,6 @@ function App() {
 
       //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms
       setFloors(prev => {
-
-        
 
         const key = `${newRow}-${newCol}`;
 
