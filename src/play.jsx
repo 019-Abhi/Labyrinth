@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import './App.css'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import './Play.css'
 
-function App() {
+function Play() {
 
   //Initial position
   const InitialPosition = {
@@ -195,4 +194,4 @@ function App() {
   );
 }
 
-export default App;
+export default Play;
