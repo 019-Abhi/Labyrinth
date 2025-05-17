@@ -1,0 +1,58 @@
+#root {
+  max-width: 1280px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+body,
+html {
+
+  background: linear-gradient(to bottom, #43577c, #1B263B);
+  margin: 0;
+  padding: 0;
+  height: fit-content;
+  width: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.body,
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.IntroBox,
+.Heading {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.IntroBox{
+
+    margin-top: 15vh;
+    
+}
+
+.IntroBox .Heading {
+  height: 10vh;
+  color: #8bafbe;
+}
+
+.IntroBox .IntroText {
+  color: #b0bec5;
+  font-size: 3.5vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bolder;
+}
+
+.PlayButton{
+
+    background-color: antiquewhite;
+
+}
