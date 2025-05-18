@@ -190,8 +190,11 @@ function Play() {
         {ConfirmLifeHack && (
             <div className="confirm-popup-overlay">
                 <div className="confirm-popup">
-                    <p>Proceed?</p>
-                    <button onClick = {spawnPopups}> Embrace Thine Oblivion </button>
+                    <p> A torrent of ancient knowledge approaches <br />
+                        A burden few may bear <br />
+                        Doest thou seek such revelation?
+                    </p>
+                    <button onClick = {spawnPopups}> Embrace Mine Oblivion </button>
                     <button onClick={() => setConfirmLifeHack(false)}> I'm scared </button>
                 </div>
             </div>
