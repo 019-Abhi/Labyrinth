@@ -7,7 +7,7 @@ function Home() {
 
     return(
     
-        <div>
+        <div className = 'EntireHome'>
         {/* Intro box to give an intro about the game */}
 
             <div className = 'IntroBox'>
@@ -26,13 +26,19 @@ function Home() {
                         Navigate to the center, and make your way to the exit to claim your victory
                     </p>
 
+                    <div className = 'ButtonRow'>
 
-                    <button onClick={() => navigate('/Labyrinth/Play')} className = 'PlayButton'>
-                        Play
-                    </button>
+                        <button onClick={() => navigate('/Labyrinth/PlayMagikally')} className = 'PlayMagikallyButton'>
+                            Play Magikally
+                        </button>
+    
+                        <button onClick={() => navigate('/Labyrinth/Play')} className = 'PlayButton'>
+                            Play
+                        </button>
+
+                    </div>
+
                     
-
-
                 </center>
             </div>
         </div>

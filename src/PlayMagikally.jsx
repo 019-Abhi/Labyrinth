@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import './Play.css'
+import './Playmagikally.css'
 
 function Play() {
 
@@ -20,6 +20,28 @@ function Play() {
   const cols = 9;
 
   const gridRef = useRef(null);
+
+  const [Popups, setPopups] = useState([]);
+
+  const [ConfirmLifeHack, setConfirmLifeHack] = useState(false);
+
+  function spawnPopups(){
+
+    const count = 300;
+    const newPopups = [];
+
+    for (let i = 0; i < count; i++){
+
+        newPopups.push({
+            id: 1, top: Math.random() * 90 + 'vh', left: Math.random() * 90 + 'vw',
+        });
+    }
+
+    setPopups(newPopups);
+
+  }
+
+
 
 
   //Literally a floor selector
@@ -134,42 +156,82 @@ function Play() {
 
      <div className="Outer_Box_Flex">
       
-      <div ref={gridRef} className="Outer_Box_Grid">
+        <button
+            style={{
+                position: 'fixed',
+                bottom: '1rem',
+                right: '1rem',
+                padding: '0.5rem 1rem',
+                borderRadius: '12px',
+                backgroundColor: '#3d6269',
+                color: '#f3f0ff',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                zIndex: 1000,
+            }}
+         onClick = {() => setConfirmLifeHack(true)}
+        >
+                Ultimate Life Hack 
+        </button>
 
-        {Array.from({ length: rows }).flatMap((_, row) =>
-          Array.from({ length: cols }).map((__, col) => {
-            const key = `${row}-${col}`;
-            const isVisited = VisitedRooms.has(key);
-            const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
-            const isTreasure = row === 4 && col === 4;
+        {Popups.map(({ id, top, left }) => (
+            <div
+            key={id}
+            className="PopupBox"
+            style={{ top, left, position: 'fixed', transform: 'translate(-50%, -50%)' }}
+            >
+                <p>in life we're always learning <br />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -Thomas
+                </p>
+            </div>
+        ))}
 
-            return (
-
-              <div key={key}>
-
-                {isVisited ? (
-                  <div id={key} className="Room_Visited">
-
-                    <div className={Floors[key]}>
-
-                      <div className='WallUp' />
-
-                      {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
-
-                    </div>
-
-
-                    <p>{isTreasure ? 'TREASURE!' : null}</p>
-                  </div>
-                ) : null}
-              </div>
-
-            );
-
-
-          })
+        {ConfirmLifeHack && (
+            <div className="confirm-popup-overlay">
+                <div className="confirm-popup">
+                    <p>Proceed?</p>
+                    <button onClick = {spawnPopups}> Embrace Thine Oblivion </button>
+                    <button onClick={() => setConfirmLifeHack(false)}> I'm scared </button>
+                </div>
+            </div>
         )}
-      </div>
+
+
+        <div ref={gridRef} className="Outer_Box_Grid">
+
+            {Array.from({ length: rows }).flatMap((_, row) =>
+            Array.from({ length: cols }).map((__, col) => {
+                const key = `${row}-${col}`;
+                const isVisited = VisitedRooms.has(key);
+                const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
+                const isTreasure = row === 4 && col === 4;
+
+                return (
+
+                <div key={key}>
+
+                    {isVisited ? (
+                    <div id={key} className="Room_Visited">
+
+                        <div className={Floors[key]}>
+
+                        {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
+
+                        </div>
+
+
+                        <p>{isTreasure ? 'TREASURE!' : null}</p>
+                    </div>
+                    ) : null}
+                </div>
+
+                );
+
+
+            })
+            )}
+        </div>
     </div>
   );
 }
