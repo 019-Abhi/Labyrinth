@@ -132,45 +132,46 @@ function Play() {
   //HTML beings *applause*
   return (
 
-     <div className="Outer_Box_Flex" ref = {gridRef}>
-      
-      <div className="Outer_Box_Grid">
+    // <div className = 'Wrap3d'>
+      <div className="Outer_Box_Flex" ref = {gridRef}>
+        
+        <div className="Outer_Box_Grid">
 
-        {Array.from({ length: rows }).flatMap((_, row) =>
-          Array.from({ length: cols }).map((__, col) => {
-            const key = `${row}-${col}`;
-            const isVisited = VisitedRooms.has(key);
-            const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
-            const isTreasure = row === 4 && col === 4;
+          {Array.from({ length: rows }).flatMap((_, row) =>
+            Array.from({ length: cols }).map((__, col) => {
+              const key = `${row}-${col}`;
+              const isVisited = VisitedRooms.has(key);
+              const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
+              const isTreasure = row === 4 && col === 4;
 
-            return (
+              return (
 
-              <div key={key}>
+                <div key={key}>
 
-                {isVisited ? (
-                  <div id={key} className="Room_Visited">
+                  {isVisited ? (
+                    <div id={key} className="Room_Visited">
 
-                    <div className={Floors[key]}>
+                      <div className={Floors[key]}>
 
-                      <div className='WallUp' />
+                        <div className='WallUp' />
+                        {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
 
-                      {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
+                      </div>
 
+
+                      <p>{isTreasure ? 'TREASURE!' : null}</p>
                     </div>
+                  ) : null}
+                </div>
+
+              );
 
 
-                    <p>{isTreasure ? 'TREASURE!' : null}</p>
-                  </div>
-                ) : null}
-              </div>
-
-            );
-
-
-          })
-        )}
+            })
+          )}
+        </div>
       </div>
-    </div>
+    // </div>
   );
 }
 
