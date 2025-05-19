@@ -132,9 +132,9 @@ function Play() {
   //HTML beings *applause*
   return (
 
-     <div className="Outer_Box_Flex">
+     <div className="Outer_Box_Flex" ref = {gridRef}>
       
-      <div ref={gridRef} className="Outer_Box_Grid">
+      <div className="Outer_Box_Grid">
 
         {Array.from({ length: rows }).flatMap((_, row) =>
           Array.from({ length: cols }).map((__, col) => {

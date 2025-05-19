@@ -5,15 +5,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Play from './Play.jsx';
 import Home from './Home.jsx';
-import PlayMagikally from './PlayMagikally.jsx';
 
 
 const router = createBrowserRouter([
 
   {path: '/Labyrinth/', element: <Home />},
-  {path: '/Labyrinth/Play', element: <Play />},
-  {path: '/Labyrinth/PlayMagikally', element: <PlayMagikally />}
-
+  {path: '/Labyrinth/Play', element: <Play />}
+  
 ]);
 
 
