@@ -132,7 +132,6 @@ function Play() {
   //HTML beings *applause*
   return (
 
-    // <div className = 'Wrap3d'>
       <div className="Outer_Box_Flex" ref = {gridRef}>
         
         <div className="Outer_Box_Grid">
@@ -151,9 +150,13 @@ function Play() {
                   {isVisited ? (
                     <div id={key} className="Room_Visited">
 
-                      <div className={Floors[key]}>
+                      <div className = 'Floor1'>
 
-                        <div className='WallUp' />
+                        <div className = 'WallUp' />
+                        <div className = 'WallDown' />
+                        <div className = 'WallRight' />
+                        <div className = 'WallLeft' />
+
                         {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
 
                       </div>
@@ -171,7 +174,6 @@ function Play() {
           )}
         </div>
       </div>
-    // </div>
   );
 }
 

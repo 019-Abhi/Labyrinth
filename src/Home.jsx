@@ -28,7 +28,7 @@ function Home() {
 
                     <div className = 'ButtonRow'>
 
-                        <button onClick={() => navigate('/Labyrinth/PlayMagikally')} className = 'PlayMagikallyButton'>
+                        <button onClick={() => navigate('/Labyrinth/Wall')} className = 'PlayMagikallyButton'>
                             Play Magikally
                         </button>
     

@@ -27,31 +27,34 @@ body {
   align-items: flex-start;
   justify-content: center;
 
-  height: 99vh;
+  height: 98vh;
   width: 100vw;
-
-  border-radius: 4vh;
 
   overflow-y: scroll;
   overflow-x: scroll;
-
-  transform: rotateX(35deg) rotateZ(-5deg);
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-  perspective: 1000px; 
 
 
 }
 
-.Outer_Box_Flex .Outer_Box_Grid {
+.Outer_Box_Grid {
   
   display: grid;
-  grid-template-columns: repeat(9, auto); 
-  grid-template-rows: repeat(9, auto);
+  grid-template-columns: repeat(9, 30vw); 
+  grid-template-rows: repeat(9, 60vh);
 
   overflow-x: scroll;
   overflow-y: scroll;
-  
+
+  transform-style: preserve-3d;
+
+  height: 80%;
+  width: 80%;
+
+  margin-top: 15vh;
+
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-40deg);
+
+
 }
 
 .Outer_Box_Flex::-webkit-scrollbar{
@@ -66,22 +69,6 @@ body {
 
 }
 
-.Room_Visited {
-
-  height: 55vh; 
-  width: 30vw; 
-  background-color: #272323;
-  box-sizing: border-box;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 2px solid #000000;
-  flex-shrink: 0;
-
-}  
-
 .Room_Visited .Emoji{
 
   font-size: 6em;
@@ -92,39 +79,11 @@ body {
   align-items: center;
   justify-content: center;
 
-
 }
 
-.Room_Visited .Floor1,
-.Room_Visited .Floor2,
-.Room_Visited .Floor3,
-.Room_Visited .Floor4,
-.Room_Visited .Floor5,
-.Room_Visited .Floor6,
-.Room_Visited .Floor7,
-.Room_Visited .Floor8,
-.Room_Visited .Floor9,
-.Room_Visited .Floor10{
-
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  height: 100%;
-  width: 100%;
-
-  position: relative;
-  transform-style: preserve-3d;
-
-  perspective: 1000px;
-  position: relative;
-
-  transform-style: preserve-3d;
-  transform-origin: center center;
-}
 
 .Floor1{
-  background: repeating-linear-gradient(45deg, white 40px, black 20px, grey 45px)
+  background: repeating-linear-gradient(45deg, white 40px, black 20px, grey 45px);
 }
 
 .Floor2{
@@ -163,28 +122,130 @@ body {
   background-color: #ac8383;
 }
 
+.WallUp {
 
-.Room_Visited .WallUp{
-
+  width: 100%;
+  height: 70px;
   position: absolute;
   top: 0;
   left: 0;
 
-  height: 20px;
-  width: 100%;
-  background-color: #1B263B;
+  background: linear-gradient(to bottom, #ccc, #666);
 
-  transform-style: preserve-3d; 
-  transform: translateZ(1000px) rotateX(-900deg); 
-  transform-origin: top center; 
+  transform: rotateX(-10deg) translateZ(20px) translateY(-10px);
+  transform-origin: bottom;
+
+  z-index: 2;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    inset 5px 0 10px rgba(0, 0, 0, 0.15);
 
 }
-/* 
-.Wrap3d{
 
-  perspective: 800px;
-  perspective-origin: 50% 50%;
-  width: 100vw;
-  height: 100vh;
+.WallDown{
 
-} */
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background: linear-gradient(to bottom, #ccc, #666);
+
+  transform: rotateX(-10deg) translateZ(1920px) translateX(1px);
+  transform-origin: bottom;
+
+  z-index: 2;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    inset 5px 0 10px rgba(0, 0, 0, 0.15);
+
+}
+
+.WallRight{
+
+  width: 100%;
+  height: 70px;
+  position: absolute;  
+
+  top:0;
+  right:0;
+
+  background: linear-gradient(to bottom, #ccc, #666);
+
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(-132px);
+  transform-origin: bottom;
+
+  z-index: 2;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    inset 5px 0 10px rgba(0, 0, 0, 0.15);
+
+}
+
+.WallLeft{
+
+  width: 100%;
+  height: 70px;
+  position: absolute;  
+
+  top:0;
+  right:0;
+
+  background: linear-gradient(to bottom, #ccc, #666);
+
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(202px);
+  transform-origin: bottom;
+
+  z-index: 2;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.25),
+    inset 5px 0 10px rgba(0, 0, 0, 0.15);
+
+}
+
+.Room_Visited {
+
+  height: 100%; 
+  width: 100%; 
+  background-color: #272323;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #000000;
+  flex-shrink: 0;
+  background: transparent;  
+
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}  
+
+.Room_Visited .Floor1,
+.Room_Visited .Floor2,
+.Room_Visited .Floor3,
+.Room_Visited .Floor4,
+.Room_Visited .Floor5,
+.Room_Visited .Floor6,
+.Room_Visited .Floor7,
+.Room_Visited .Floor8,
+.Room_Visited .Floor9,
+.Room_Visited .Floor10{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+
+}
