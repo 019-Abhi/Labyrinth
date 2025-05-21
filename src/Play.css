@@ -13,8 +13,8 @@ body {
   height: 100vh;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   overflow-y: hidden;
   overflow-x: hidden;
@@ -25,7 +25,7 @@ body {
 
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 
   height: 98vh;
   width: 100vw;
@@ -39,21 +39,19 @@ body {
 .Outer_Box_Grid {
   
   display: grid;
-  grid-template-columns: repeat(9, 30vw); 
-  grid-template-rows: repeat(9, 60vh);
+  grid-template-columns: repeat(9, 25vw); 
+  grid-template-rows: repeat(9, 55vh);
 
   overflow-x: scroll;
   overflow-y: scroll;
 
   transform-style: preserve-3d;
 
-  height: 80%;
-  width: 80%;
-
-  margin-top: 15vh;
+  height: 120%;
+  width: 100%;
 
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-40deg);
-
+  border:2px solid #000000;
 
 }
 
@@ -132,7 +130,7 @@ body {
 
   background: linear-gradient(to bottom, #ccc, #666);
 
-  transform: rotateX(-10deg) translateZ(20px) translateY(-10px);
+  transform: rotateX(-10deg) translateZ(-345px) translateY(-10px);
   transform-origin: bottom;
 
   z-index: 2;
@@ -153,7 +151,7 @@ body {
 
   background: linear-gradient(to bottom, #ccc, #666);
 
-  transform: rotateX(-10deg) translateZ(1920px) translateX(1px);
+  transform: rotateX(-10deg) translateY(80px) translateZ(1690px) translateX(1px);
   transform-origin: bottom;
 
   z-index: 2;
@@ -166,7 +164,7 @@ body {
 
 .WallRight{
 
-  width: 100%;
+  width: 37.5vw;
   height: 70px;
   position: absolute;  
 
@@ -175,7 +173,7 @@ body {
 
   background: linear-gradient(to bottom, #ccc, #666);
 
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(-132px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(118px) translateZ(50px) translateY(-255px);
   transform-origin: bottom;
 
   z-index: 2;
@@ -188,7 +186,7 @@ body {
 
 .WallLeft{
 
-  width: 100%;
+  width: 37.5vw;
   height: 70px;
   position: absolute;  
 
@@ -197,7 +195,7 @@ body {
 
   background: linear-gradient(to bottom, #ccc, #666);
 
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(202px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(115px) translateZ(50px) translateY(150px);
   transform-origin: bottom;
 
   z-index: 2;
@@ -216,13 +214,13 @@ body {
   box-sizing: border-box;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 
-  border: 2px solid #000000;
   flex-shrink: 0;
   background: transparent;  
 
+  margin-top: 100px;
   transform-style: preserve-3d;
   transition: transform 0.5s ease;
 }  
@@ -239,8 +237,8 @@ body {
 .Room_Visited .Floor10{
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-direction: column;
   position: relative;
 

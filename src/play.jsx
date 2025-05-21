@@ -150,7 +150,7 @@ function Play() {
                   {isVisited ? (
                     <div id={key} className="Room_Visited">
 
-                      <div className = 'Floor1'>
+                      <div className = {Floors[key]}>
 
                         <div className = 'WallUp' />
                         <div className = 'WallDown' />
