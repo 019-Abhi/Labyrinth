@@ -27,12 +27,8 @@ function Home() {
                     </p>
 
                     <div className = 'ButtonRow'>
-
-                        <button onClick={() => navigate('/Labyrinth/Wall')} className = 'PlayMagikallyButton'>
-                            Play Magikally
-                        </button>
     
-                        <button onClick={() => navigate('/Labyrinth/Play')} className = 'PlayButton'>
+                        <button onClick={() => navigate('/Labyrinth/Game')} className = 'PlayButton'>
                             Play
                         </button>
 

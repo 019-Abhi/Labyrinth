@@ -3,20 +3,15 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './index.css';
-import Play from './Play.jsx';
 import Home from './Home.jsx';
-import Wall from './Wall.jsx'
-
+import Game from './Game.jsx';
 
 const router = createBrowserRouter([
 
   {path: '/Labyrinth/', element: <Home />},
-  {path: '/Labyrinth/Play', element: <Play />},
-
-  {path: '/Labyrinth/Wall', element: <Wall />}
+  {path: '/Labyrinth/Game', element: <Game />},
 
 ]);
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
