@@ -8,8 +8,8 @@ import Game from './Game.jsx';
 
 const router = createBrowserRouter([
 
-  {path: '/Labyrinth/', element: <Home />},
-  {path: '/Labyrinth/Game', element: <Game />},
+  {path: '/', element: <Home />},
+  {path: '/game', element: <Game />},
 
 ]);
 
