@@ -12,7 +12,8 @@ function Play() {
   //Decalaration statements
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
-  const [Floors, setFloors] = useState({})
+  const [Floors, setFloors] = useState({});
+  const [Popup, setPopup] = useState(false);
 
 
   const CharacterEmoji = '🐶';
@@ -132,8 +133,51 @@ function Play() {
   //HTML beings *applause*
   return (
 
-      <div className="Outer_Box_Flex" ref = {gridRef}>
+    <div>
+
+
+      <div className = 'HelpButtonWrapper'>
         
+        <button className = 'HelpButton' onClick = {() => setPopup(true)}>
+          How To Play
+        </button>
+
+      </div>
+
+
+      <div className="Outer_Box_Flex" ref={gridRef}>
+
+        {Popup && (
+          <div className = 'JustToCenterHelpWindow'>
+            <div className = 'HelpWindow'>
+
+              <p>
+                <h1 className = 'HelpHeading'>⚜️ Welcome to The Hidden Labyrinth ⚜️</h1>
+              </p>
+
+              <p className = 'HelpText'>
+
+                Thou begins at the edge of The Hidden Labyrinth <br />
+                Thy purpose: to reach its hallowed center, <br/> where the ancient treasure lieth in wait
+                <br />
+                Use arrow keys to move, stepping from one chamber to another
+                <br/>
+                Not all paths lead to salvation — <br /> many are traps of stone and shadow
+                <br /> <br />
+                Fortune favor thee, brave wanderer
+
+              </p>
+
+              <div className = 'HelpCancelButtonWrapper'>
+                <button className = 'HelpCancelButton' onClick = {() => setPopup(false)}>
+                  Close
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
         <div className="Outer_Box_Grid">
 
           {Array.from({ length: rows }).flatMap((_, row) =>
@@ -145,17 +189,17 @@ function Play() {
 
               return (
 
-                <div key={key}>
+                <div>
 
                   {isVisited ? (
                     <div id={key} className="Room_Visited">
 
-                      <div className = {Floors[key]}>
+                      <div className={Floors[key]}>
 
-                        <div className = 'WallUp' />
-                        <div className = 'WallDown' />
-                        <div className = 'WallRight' />
-                        <div className = 'WallLeft' />
+                        <div className='WallUp' />
+                        <div className='WallDown' />
+                        <div className='WallRight' />
+                        <div className='WallLeft' />
 
                         {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
 
@@ -174,6 +218,7 @@ function Play() {
           )}
         </div>
       </div>
+    </div>
   );
 }
 

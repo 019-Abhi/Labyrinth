@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
 
   display: flex;
   justify-content: flex-start;
@@ -27,32 +27,32 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
 
-  height: 98vh;
+  height: 160vh;
   width: 100vw;
 
   overflow-y: scroll;
-  overflow-x: scroll;
-
-
+  overflow-x: hidden;
 }
 
 .Outer_Box_Grid {
   
   display: grid;
-  grid-template-columns: repeat(9, 25vw); 
-  grid-template-rows: repeat(9, 55vh);
+  grid-template-columns: repeat(9, 35vw); 
+  grid-template-rows: repeat(9, 65vh);
 
   overflow-x: scroll;
   overflow-y: scroll;
 
   transform-style: preserve-3d;
 
-  height: 120%;
-  width: 100%;
+  height: 90%;
+  width: 90%;
 
-  transform: rotateX(60deg) rotateY(0deg) rotateZ(-40deg);
-  border:2px solid #000000;
+  margin-top: 10vh;
+  transform: rotateX(55deg) rotateY(0deg) rotateZ(-30deg);
 
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .Outer_Box_Flex::-webkit-scrollbar{
@@ -121,90 +121,69 @@ body {
 }
 
 .WallUp {
-
   width: 100%;
-  height: 70px;
+  height: 9.11vh; /* 70px */
   position: absolute;
   top: 0;
   left: 0;
 
-  background: linear-gradient(to bottom, #ccc, #666);
+  background: linear-gradient(to bottom, #e0e0e0, #888888, #444444); 
 
-  transform: rotateX(-10deg) translateZ(-345px) translateY(-10px);
+  transform: rotateX(-10deg) translateZ(-44.92vh) translateY(-1.30vh) translateX(00vh); 
   transform-origin: bottom;
 
   z-index: 2;
 
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
-
 }
 
-.WallDown{
-
+.WallDown {
   width: 100%;
-  height: 70px;
+  height: 9.11vh; 
   position: absolute;
   top: 0;
   left: 0;
 
-  background: linear-gradient(to bottom, #ccc, #666);
+  background: linear-gradient(to top, #e0e0e0, #888888, #444444); 
 
-  transform: rotateX(-10deg) translateY(80px) translateZ(1690px) translateX(1px);
+  transform: rotateX(-10deg) translateY(10.42vh) translateZ(263vh) translateX(0.07vw); 
   transform-origin: bottom;
 
   z-index: 2;
 
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
-
 }
 
-.WallRight{
-
-  width: 37.5vw;
-  height: 70px;
+.WallRight {
+  width: 36.6vw;
+  height: 9.11vh;
   position: absolute;  
+  top: 0;
+  right: 0;
 
-  top:0;
-  right:0;
+  background: linear-gradient(to bottom, #d9d9d9, #999999, #555555); 
 
-  background: linear-gradient(to bottom, #ccc, #666);
-
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(118px) translateZ(50px) translateY(-255px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.3vw) translateZ(500.51vh) translateY(-28.62vh);
   transform-origin: bottom;
 
   z-index: 2;
 
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
-
 }
 
-.WallLeft{
-
-  width: 37.5vw;
-  height: 70px;
+.WallLeft {
+  width: 36.6vw;
+  height: 9.11vh;
   position: absolute;  
+  top: 0;
+  right: 0;
 
-  top:0;
-  right:0;
+  background: linear-gradient(to top, #d9d9d9, #999999, #555555); 
 
-  background: linear-gradient(to bottom, #ccc, #666);
-
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(115px) translateZ(50px) translateY(150px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.3vw) translateZ(300vh) translateY(33.7vh); 
   transform-origin: bottom;
 
   z-index: 2;
 
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
-
 }
+
 
 .Room_Visited {
 
@@ -246,4 +225,117 @@ body {
   width: 100%;
   transform-style: preserve-3d;
 
+}
+
+.JustToCenterHelpWindow{
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 9999;
+
+
+}
+
+.HelpWindow {
+
+  height: 64vh;
+  width: 77.77vh;
+
+  background: radial-gradient(circle at top left, #f8f4e3, #d2b48c);
+  border: 4px solid #5c3d2e;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+
+}
+
+.HelpHeading{
+
+  font-size:1.7rem;
+  color: #a67c00;
+  text-shadow: 1px 1px 2px rgba(80, 60, 0, 0.3);
+
+  margin-top: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.HelpText{
+
+  text-align: center;
+  font-family: 'Georgia', serif;
+  color: #735c00;
+  font-size: 1.1rem;
+  line-height: 2;
+  margin-top: 6vh;
+}
+
+.HelpCancelButtonWrapper{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.HelpCancelButton {
+
+  font-family: 'Georgia', serif;
+  background-color: #a08453; 
+  color: #f8f4e3; 
+
+  border: 2px solid #a67c00;
+  padding: 0.6em 1.4em;
+
+  font-size: 1rem;
+  border-radius: 6px;
+  
+  cursor: pointer;
+  margin-top: 0.5vh;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, transform 0.2s ease;
+
+}
+
+.HelpCancelButton:hover {
+  background-color: #7a5e34;
+  transform: scale(1.04);
+}
+
+.HelpButton{
+
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw;
+
+  z-index: 10000;
+
+  background-color: #cf9d46; 
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+
+  padding: 0.6em 1.2em;
+  border: 2px solid #5c3d2e; 
+  border-radius: 8px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.HelpCancelButton:hover {
+  background-color: #7a5e34;
+  transform: scale(1.04);
 }
