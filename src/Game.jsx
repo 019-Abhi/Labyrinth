@@ -192,19 +192,20 @@ function Play() {
                 <div>
 
                   {isVisited ? (
-                    <div id={key} className="Room_Visited">
+                    <div id={key} className = "Room_Visited">
 
-                      <div className={Floors[key]}>
+                      <div className = {Floors[key]}>
 
-                        <div className='WallUp' />
-                        <div className='WallDown' />
-                        <div className='WallRight' />
-                        <div className='WallLeft' />
+                        <div className = 'DoorDown' />
+
+                        <div className = 'WallUp' />
+                        <div className = 'WallDown' />
+                        <div className = 'WallRight' />
+                        <div className = 'WallLeft' />
 
                         {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
 
-                      </div>
-
+                      </div>                        
 
                       <p>{isTreasure ? 'TREASURE!' : null}</p>
                     </div>
