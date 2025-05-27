@@ -14,6 +14,7 @@ function Play() {
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
   const [Floors, setFloors] = useState({});
   const [Popup, setPopup] = useState(false);
+  const [LastDirection, setLastDirection] = useState(null);
 
 
   const CharacterEmoji = '🐶';
@@ -56,21 +57,25 @@ function Play() {
         case 'ArrowUp':
           newRow = Math.max(0, CurrentPosition.Row - 1);
           handled = true;
+          setLastDirection('up');
           break;
 
         case 'ArrowDown':
           newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
           handled = true;
+          setLastDirection('down');
           break;
 
         case 'ArrowLeft':
           newCol = Math.max(0, CurrentPosition.Col - 1);
           handled = true;
+          setLastDirection('left');
           break;
 
         case 'ArrowRight':
           newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
           handled = true;
+          setLastDirection('right');
           break;
 
         default:
@@ -151,9 +156,7 @@ function Play() {
           <div className = 'JustToCenterHelpWindow'>
             <div className = 'HelpWindow'>
 
-              <p>
-                <h1 className = 'HelpHeading'>⚜️ Welcome to The Hidden Labyrinth ⚜️</h1>
-              </p>
+              <h1 className = 'HelpHeading'>⚜️ Welcome to The Hidden Labyrinth ⚜️</h1>
 
               <p className = 'HelpText'>
 
@@ -197,11 +200,14 @@ function Play() {
                       <div className = {Floors[key]}>
 
                         <div className = 'DoorDown' />
+                        <div className = 'DoorUp' />
+                        <div className = 'DoorRight' />
+                        <div className = 'DoorLeft' />
 
                         <div className = 'WallUp' />
                         <div className = 'WallDown' />
                         <div className = 'WallRight' />
-                        <div className = 'WallLeft' />
+                        <div className = 'WallLeft' /> 
 
                         {isCurrent && <div className='Emoji'>{CharacterEmoji}</div>}
 

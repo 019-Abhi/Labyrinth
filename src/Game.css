@@ -120,12 +120,12 @@ body {
   background-color: #ac8383;
 }
 
-.DoorDown{
+.DoorDown {
 
   position: absolute;
   bottom: 0; 
   left: 50%;
-  transform: translateX(-2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+  transform: translateX(-1.3vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
 
   width: 10vh;
   height: 9.3vh;
@@ -136,6 +136,76 @@ body {
     inset 0 -10px 30px rgba(255, 255, 255, 0.05),  
     inset 0 15px 25px rgba(0, 0, 0, 0.7),
     0 0 15px 2px rgba(40, 40, 40, 0.8);   
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+
+}
+
+.DoorUp{
+  
+  position: absolute;
+  bottom: 0; 
+  left: 52%;
+  transform: translateX(-2vw) rotateZ(0deg) rotateY(0deg) translateY(-65vh) translateZ(300vh);
+
+  width: 10vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset 0 -10px 30px rgba(255, 255, 255, 0.05),  
+    inset 0 -15px 25px rgba(0, 0, 0, 0.7),
+    0 0 15px 2px rgba(40, 40, 40, 0.8);   
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+
+}
+
+.DoorRight {
+
+  position: absolute;
+  bottom: 55%; 
+  left: 100%;
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+
+  width: 9.4vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset -10px 0 30px rgba(255, 255, 255, 0.05),  
+    inset 15px 0 25px rgba(0, 0, 0, 0.7),
+    0px 0 15px 2px rgba(40, 40, 40, 0.8);
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+  opacity: 0.9;
+
+}
+
+.DoorLeft {
+
+  position: absolute;
+  bottom: 55%; 
+  left: 0%;
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+
+  width: 9.4vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset -10px 0 30px rgba(255, 255, 255, 0.05),  
+    inset 15px 0 25px rgba(0, 0, 0, 0.7),
+    0px 0 15px 2px rgba(40, 40, 40, 0.8); 
 
   transform-style: preserve-3d;
   transform-origin: bottom;
@@ -168,7 +238,7 @@ body {
 
   background: linear-gradient(to top, #e0e0e0, #888888, #444444); 
 
-  transform: rotateX(-10deg) translateY(10.42vh) translateZ(263vh) translateX(0.07vw); 
+  transform: rotateX(-10deg) translateY(10.42vh) translateZ(263vh) translateX(0.0vw); 
   transform-origin: bottom;
 
   z-index: 2;
@@ -176,23 +246,7 @@ body {
 }
 
 .WallRight {
-  width: 36.6vw;
-  height: 9.11vh;
-  position: absolute;  
-  top: 0;
-  right: 0;
-
-  background: linear-gradient(to bottom, #d9d9d9, #999999, #555555); 
-
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.3vw) translateZ(500.51vh) translateY(-28.62vh);
-  transform-origin: bottom;
-
-  z-index: 2;
-
-}
-
-.WallLeft {
-  width: 36.6vw;
+  width: 37vw;
   height: 9.11vh;
   position: absolute;  
   top: 0;
@@ -200,7 +254,23 @@ body {
 
   background: linear-gradient(to top, #d9d9d9, #999999, #555555); 
 
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.3vw) translateZ(300vh) translateY(33.7vh); 
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.4vw) translateZ(270vh) translateY(-37vh);
+  transform-origin: bottom;
+
+  z-index: 2;
+
+}
+
+.WallLeft {
+  width: 37vw;
+  height: 9.11vh;
+  position: absolute;  
+  top: 0;
+  right: 0;
+
+  background: linear-gradient(to top, #d9d9d9, #999999, #555555); 
+
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.4vw) translateZ(270vh) translateY(33.2vh); 
   transform-origin: bottom;
 
   z-index: 2;
