@@ -13,8 +13,9 @@ function Play() {
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
   const [Floors, setFloors] = useState({});
+  const [Doors, setDoors] = useState({})
   const [Popup, setPopup] = useState(false);
-  const [LastDirection, setLastDirection] = useState(null);
+  // const [LastMovement, setLastMovement] = useState(null);
 
 
   const CharacterEmoji = '🐶';
@@ -33,12 +34,58 @@ function Play() {
 
   };
 
+  function DoorSelector(FixedDoorinNewRoom) {
+
+    console.log('door selector function called')
+
+    const doors = {
+
+      UpDoor: Math.random() < 0.5,
+      DownDoor: Math.random() < 0.5,
+      LeftDoor: Math.random() < 0.5,
+      RightDoor: Math.random() < 0.5
+      
+      // UpDoor: false,
+      // DownDoor: false,
+      // LeftDoor: false,
+      // RightDoor: false
+
+    }
+
+    if (FixedDoorinNewRoom) {
+
+      switch(FixedDoorinNewRoom){
+
+        case 'Up':
+          doors.UpDoor = true;
+          console.log('value of DownDoor: ' + doors['DownDoor'])
+          break;
+        
+        case 'Down':
+          doors.DownDoor = true;
+          break;
+
+        case 'Right':
+          doors.RightDoor = true;
+          break;
+
+        case 'Left':
+          doors.LeftDoor = true;
+          break;
+
+      }
+    }
+
+    return doors;
+
+  }
+
+
   useEffect(() => {
 
     const key = `${InitialPosition.Row}-${InitialPosition.Col}`;
-    setFloors({
-      [key]: 'Floor1'
-    });
+    setFloors({ [key]: FloorSelector() });
+    setDoors({ [key]: DoorSelector() });
 
   }, []);
 
@@ -50,32 +97,35 @@ function Play() {
       let newRow = CurrentPosition.Row;
       let newCol = CurrentPosition.Col;
       let handled = false;
+      let FixedDoorinNewRoom = null;
 
 
       switch (event.key) {
 
         case 'ArrowUp':
           newRow = Math.max(0, CurrentPosition.Row - 1);
+          FixedDoorinNewRoom = 'Down';
+          console.log('up arrow detected');
           handled = true;
-          setLastDirection('up');
           break;
 
         case 'ArrowDown':
           newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+          FixedDoorinNewRoom = 'Up';
+          console.log('down arrow detected');
           handled = true;
-          setLastDirection('down');
           break;
 
         case 'ArrowLeft':
           newCol = Math.max(0, CurrentPosition.Col - 1);
           handled = true;
-          setLastDirection('left');
+          FixedDoorinNewRoom = 'Right';
           break;
 
         case 'ArrowRight':
           newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+          FixedDoorinNewRoom = 'Left';
           handled = true;
-          setLastDirection('right');
           break;
 
         default:
@@ -101,6 +151,24 @@ function Play() {
         return {
           ...prev,
           [key]: FloorSelector()
+        };
+
+      });
+
+      //To assign new doors for new rooms and keep old door patterns for visited rooms
+      console.log('setdoorfornewroom before seDoors is run: ' + FixedDoorinNewRoom)
+      setDoors(prev => {
+
+        const key = `${newRow}-${newCol}`;
+
+        if (prev[key]){
+          return prev;
+        };
+
+        console.log('setDoors called');
+        return {
+          ...prev,
+          [key]: DoorSelector(FixedDoorinNewRoom)
         };
 
       });
@@ -199,10 +267,10 @@ function Play() {
 
                       <div className = {Floors[key]}>
 
-                        <div className = 'DoorDown' />
-                        <div className = 'DoorUp' />
-                        <div className = 'DoorRight' />
-                        <div className = 'DoorLeft' />
+                        {row !== 0 && Doors[key]?.UpDoor && <div className="DoorUp" />}
+                        {row !== 8 && Doors[key]?.DownDoor && <div className="DoorDown" />}
+                        {col !== 0 && Doors[key]?.LeftDoor && <div className="DoorLeft" />}
+                        {col !== 8 && Doors[key]?.RightDoor && <div className="DoorRight" />}
 
                         <div className = 'WallUp' />
                         <div className = 'WallDown' />

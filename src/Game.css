@@ -125,7 +125,7 @@ body {
   position: absolute;
   bottom: 0; 
   left: 50%;
-  transform: translateX(-1.3vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+  transform: translateX(-1.3vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
 
   width: 10vh;
   height: 9.3vh;
@@ -148,7 +148,7 @@ body {
   position: absolute;
   bottom: 0; 
   left: 52%;
-  transform: translateX(-2vw) rotateZ(0deg) rotateY(0deg) translateY(-65vh) translateZ(300vh);
+  transform: translateX(-2vw) rotateZ(0deg) rotateY(0deg) translateY(-65vh) translateZ(480vh);
 
   width: 10vh;
   height: 9.3vh;
@@ -171,7 +171,7 @@ body {
   position: absolute;
   bottom: 55%; 
   left: 100%;
-  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
 
   width: 9.4vh;
   height: 9.3vh;
@@ -195,7 +195,7 @@ body {
   position: absolute;
   bottom: 55%; 
   left: 0%;
-  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(280vh);
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
 
   width: 9.4vh;
   height: 9.3vh;
