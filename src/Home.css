@@ -51,10 +51,19 @@ html::-webkit-scrollbar {
 }
 
 .IntroBox .IntroText {
+
   color: #b0bec5;
   font-size: 3.5vh;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: bolder;
+  font-size: x-large;
+
+}
+
+.IntroText{
+
+  line-height: 2;
+
 }
 
 .ButtonRow{

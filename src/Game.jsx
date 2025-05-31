@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
+import StartingRoomStuff from './assets/Decor.png';
 function Play() {
 
   //Initial position
@@ -142,7 +143,9 @@ function Play() {
 
     }
 
-    setFloors({ [key]: FloorSelector() });
+    const StartingRoomFloor = 'StartingRoomFloor'
+
+    setFloors({ [key]: StartingRoomFloor });
     setDoors({ [key]: DoorsforStartingRoom });
 
   }, []);
@@ -346,13 +349,13 @@ function Play() {
 
               <p className = 'HelpText'>
 
-                Thou begins at the edge of The Hidden Labyrinth <br />
-                Thy purpose: to reach its hallowed center, <br/> where the ancient treasure lieth in wait
+                Thou awakest at the heart of a vast and ancient labyrinth <br />
+                Thy memory is shrouded in mist — yet one truth remains: <br/> <b>Thou must escape</b> <br/> 
+
+                Somewhere 'long the outer walls lieth the way out <br />
+                Seek it before thou art claimed by the Hidden Labyrinth <br/>
+                Use the arrow keys to traverse from chamber to chamber <br />
                 <br />
-                Use arrow keys to move, stepping from one chamber to another
-                <br/>
-                Not all paths lead to salvation — <br /> many are traps of stone and shadow
-                <br /> <br />
                 Fortune favor thee, brave wanderer
 
               </p>
@@ -387,6 +390,13 @@ function Play() {
 
                       {/* Loads walls and conditionally doors :) */}
                       <div className = {Floors[key]}>
+
+                        {CurrentPosition == InitialPosition ? (
+                          <div className = 'StartingRoomElements'>
+                            <img src = {StartingRoomStuff} alt = 'pole and stuff' />
+                          </div>
+
+                        ) : null}
 
                         {row !== 0 && Doors[key]?.UpDoor && <div className= "DoorUp" />}
                         {row !== 8 && Doors[key]?.DownDoor && <div className= "DoorDown" />}

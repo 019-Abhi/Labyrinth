@@ -19,11 +19,11 @@ function Home() {
 
 
                     <p className = 'IntroText'>
-                        You've entered The Hidden Labyrinth, an ancient maze shrouded in mystery and shadow
-                        <br />
-                        Venture deep into the heart of the labyrinth, where a treasure lies hidden
-                        <br />
-                        Navigate to the center, and make your way to the exit to claim your victory
+
+                        You've stepped into The Hidden Labyrinth — a maze wrapped in shadows and secrets <br />
+                        Lost in its winding corridors lies a hidden exit, waiting to be found <br />
+                        Begin at the center, and find your way out before the labyrinth claims you
+
                     </p>
 
                     <div className = 'ButtonRow'>
