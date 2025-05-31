@@ -1,13 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
 import './Game.css'
-
+import confetti from 'canvas-confetti';
 function Play() {
 
   //Initial position
   const InitialPosition = {
-    "Row": 0,
+    "Row": 4,
     "Col": 4
   };
+
+  //Creates a random treasure room
+  function TreasureRowColGenerator() {
+
+    const TreasureRow = Math.floor(Math.random() * 9);
+    let TreasureCol;
+
+    if ( TreasureRow == 0 || TreasureRow == 8){
+      TreasureCol = Math.floor(Math.random() * 9);
+    }
+
+    else{
+      TreasureCol = Math.random() < 0.5 ? 0 : 8
+    }
+
+    return {TreasureRow, TreasureCol}
+  };
+
+  const [TreasureRoom] = useState(() => TreasureRowColGenerator());
+
+  console.log(TreasureRoom)
 
   //Decalaration statements
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
@@ -15,8 +36,6 @@ function Play() {
   const [Floors, setFloors] = useState({});
   const [Doors, setDoors] = useState({})
   const [Popup, setPopup] = useState(false);
-  // const [LastMovement, setLastMovement] = useState(null);
-
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -34,9 +53,8 @@ function Play() {
 
   };
 
-  function DoorSelector(FixedDoorinNewRoom) {
-
-    console.log('door selector function called')
+  //And a door selector randomizer
+  function DoorSelector(FixedDoorinNewRoom, CurrentRow, CurrentCol, EntireDoorsState = {}) {
 
     const doors = {
 
@@ -44,21 +62,21 @@ function Play() {
       DownDoor: Math.random() < 0.5,
       LeftDoor: Math.random() < 0.5,
       RightDoor: Math.random() < 0.5
-      
-      // UpDoor: false,
-      // DownDoor: false,
-      // LeftDoor: false,
-      // RightDoor: false
+
+      // UpDoor: true,
+      // DownDoor: true,
+      // LeftDoor: true,
+      // RightDoor: true      
 
     }
 
+    //to allow reverse travel
     if (FixedDoorinNewRoom) {
 
       switch(FixedDoorinNewRoom){
 
         case 'Up':
           doors.UpDoor = true;
-          console.log('value of DownDoor: ' + doors['DownDoor'])
           break;
         
         case 'Down':
@@ -76,16 +94,56 @@ function Play() {
       }
     }
 
+    //checks neighboring rooms for doors into the current room and updates the current rooms doors based on that
+    const RoomAbove = `${CurrentRow - 1}-${CurrentCol}`;
+    const hasBottomDoorinRoomAbove = EntireDoorsState[RoomAbove]?.DownDoor;
+
+    const RoomLeft = `${CurrentRow}-${CurrentCol - 1}`;
+    const hasRightDoorinRoomLeft = EntireDoorsState[RoomLeft]?.RightDoor;
+
+    const RoomRight = `${CurrentRow}-${CurrentCol + 1}`;
+    const hasLeftDoorinRoomRight = EntireDoorsState[RoomRight]?.LeftDoor;
+
+    const RoomBottom = `${CurrentRow + 1}-${CurrentCol}`;
+    const hasUpDoorinRoomBottom = EntireDoorsState[RoomBottom]?.UpDoor;
+
+    if (hasBottomDoorinRoomAbove){
+      doors.UpDoor = true;
+    }
+
+    if(hasRightDoorinRoomLeft){
+      doors.LeftDoor = true;
+    }
+
+    if(hasLeftDoorinRoomRight){
+      doors.RightDoor = true;
+    }
+
+    if(hasUpDoorinRoomBottom){
+      doors.DownDoor = true;
+    }
+
     return doors;
 
   }
 
 
+  //useeffect for the starting room to have doors and floor 
   useEffect(() => {
 
     const key = `${InitialPosition.Row}-${InitialPosition.Col}`;
+
+    const DoorsforStartingRoom = {
+
+      UpDoor: true,
+      DownDoor: true,
+      LeftDoor: true,
+      RightDoor: true
+
+    }
+
     setFloors({ [key]: FloorSelector() });
-    setDoors({ [key]: DoorSelector() });
+    setDoors({ [key]: DoorsforStartingRoom });
 
   }, []);
 
@@ -103,33 +161,56 @@ function Play() {
       switch (event.key) {
 
         case 'ArrowUp':
-          newRow = Math.max(0, CurrentPosition.Row - 1);
-          FixedDoorinNewRoom = 'Down';
-          console.log('up arrow detected');
-          handled = true;
+
+          if (Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. UpDoor){
+
+            newRow = Math.max(0, CurrentPosition.Row - 1);
+            FixedDoorinNewRoom = 'Down';
+            handled = true;
+
+          }
+
           break;
 
         case 'ArrowDown':
-          newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
-          FixedDoorinNewRoom = 'Up';
-          console.log('down arrow detected');
-          handled = true;
+
+          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. DownDoor){
+
+            newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+            FixedDoorinNewRoom = 'Up';
+            handled = true;
+
+          }
+
           break;
 
         case 'ArrowLeft':
-          newCol = Math.max(0, CurrentPosition.Col - 1);
-          handled = true;
-          FixedDoorinNewRoom = 'Right';
+
+          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. LeftDoor){
+
+            newCol = Math.max(0, CurrentPosition.Col - 1);
+            handled = true;
+            FixedDoorinNewRoom = 'Right';
+
+          }
+
           break;
 
         case 'ArrowRight':
-          newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
-          FixedDoorinNewRoom = 'Left';
-          handled = true;
+
+          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. RightDoor){
+
+            newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+            FixedDoorinNewRoom = 'Left';
+            handled = true;
+
+          }
+
           break;
 
         default:
           return;
+
       }
 
       //Updates CurrentPosition and VisitedRooms
@@ -139,7 +220,7 @@ function Play() {
 
 
 
-      //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms
+      //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
       setFloors(prev => {
 
         const key = `${newRow}-${newCol}`;
@@ -156,21 +237,42 @@ function Play() {
       });
 
       //To assign new doors for new rooms and keep old door patterns for visited rooms
-      console.log('setdoorfornewroom before seDoors is run: ' + FixedDoorinNewRoom)
       setDoors(prev => {
-
+        
         const key = `${newRow}-${newCol}`;
 
-        if (prev[key]){
-          return prev;
+        if (prev[key]) return prev;
+
+        const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
+
+        const updated = { ...prev, [key]: newDoors };
+
+        const updateNeighbor = (neighborKey, oppositeDirection) => {
+
+          if (updated[neighborKey]) {
+
+            updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
+
+          }
         };
 
-        console.log('setDoors called');
-        return {
-          ...prev,
-          [key]: DoorSelector(FixedDoorinNewRoom)
-        };
+        if (newDoors.UpDoor) {
+          updateNeighbor(`${newRow - 1}-${newCol}`, 'DownDoor');
+        }
 
+        if (newDoors.DownDoor) {
+          updateNeighbor(`${newRow + 1}-${newCol}`, 'UpDoor');
+        }
+
+        if (newDoors.LeftDoor) {
+          updateNeighbor(`${newRow}-${newCol - 1}`, 'RightDoor');
+        }
+
+        if (newDoors.RightDoor) {
+          updateNeighbor(`${newRow}-${newCol + 1}`, 'LeftDoor');
+        }
+
+        return updated;
       });
 
 
@@ -196,11 +298,26 @@ function Play() {
     const currentRoomElement = document.getElementById(currentRoomId);
 
     if (gridRef.current && currentRoomElement) {
-      currentRoomElement.scrollIntoView();
+      currentRoomElement.scrollIntoView({
+
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center'
+
+      });
     }
 
   }, [CurrentPosition])
 
+  useEffect(() => {
+    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol) {
+      confetti({
+        particleCount: 800,
+        spread: 300,
+        origin: { y: 0.6 }
+      });
+    }
+  }, [CurrentPosition]);
 
 
   //HTML beings *applause*
@@ -220,6 +337,7 @@ function Play() {
 
       <div className="Outer_Box_Flex" ref={gridRef}>
 
+        {/* Help button div */}
         {Popup && (
           <div className = 'JustToCenterHelpWindow'>
             <div className = 'HelpWindow'>
@@ -249,6 +367,8 @@ function Play() {
           </div>
         )}
 
+
+        {/* Grid and printing rooms */}
         <div className="Outer_Box_Grid">
 
           {Array.from({ length: rows }).flatMap((_, row) =>
@@ -256,7 +376,7 @@ function Play() {
               const key = `${row}-${col}`;
               const isVisited = VisitedRooms.has(key);
               const isCurrent = row === CurrentPosition.Row && col === CurrentPosition.Col;
-              const isTreasure = row === 4 && col === 4;
+              // const isTreasure = row === 4 && col === 4;
 
               return (
 
@@ -265,12 +385,13 @@ function Play() {
                   {isVisited ? (
                     <div id={key} className = "Room_Visited">
 
+                      {/* Loads walls and conditionally doors :) */}
                       <div className = {Floors[key]}>
 
-                        {row !== 0 && Doors[key]?.UpDoor && <div className="DoorUp" />}
-                        {row !== 8 && Doors[key]?.DownDoor && <div className="DoorDown" />}
-                        {col !== 0 && Doors[key]?.LeftDoor && <div className="DoorLeft" />}
-                        {col !== 8 && Doors[key]?.RightDoor && <div className="DoorRight" />}
+                        {row !== 0 && Doors[key]?.UpDoor && <div className= "DoorUp" />}
+                        {row !== 8 && Doors[key]?.DownDoor && <div className= "DoorDown" />}
+                        {col !== 0 && Doors[key]?.LeftDoor && <div className= "DoorLeft" />}
+                        {col !== 8 && Doors[key]?.RightDoor && <div className= "DoorRight" />}
 
                         <div className = 'WallUp' />
                         <div className = 'WallDown' />
@@ -281,7 +402,6 @@ function Play() {
 
                       </div>                        
 
-                      <p>{isTreasure ? 'TREASURE!' : null}</p>
                     </div>
                   ) : null}
                 </div>
@@ -297,4 +417,5 @@ function Play() {
   );
 }
 
+// Happily ever after
 export default Play;
