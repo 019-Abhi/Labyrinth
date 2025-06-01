@@ -44,6 +44,34 @@ function Play() {
 
   const gridRef = useRef(null);
 
+  function GeneratePathToTreausreRoom(InitialRow, InitialCol,){
+
+    let CurrentRow = InitialRow;
+    let CurrentCol = InitialCol;
+
+    while (CurrentRow !== TreasureRoom.TreasureRow && CurrentCol !== TreasureRoom.TreasureCol){
+
+      const key = `${CurrentRow}-${CurrentCol}`;
+      let allowedDirections = ['Up', 'Down', 'Left', 'Right'];
+
+      if (CurrentRow === 0) allowedDirections = allowedDirections.filter(d => d !== 'Up');
+      if (CurrentRow === 8) allowedDirections = allowedDirections.filter(d => d !== 'Down');
+      if (CurrentCol === 0) allowedDirections = allowedDirections.filter(d => d !== 'Left');
+      if (CurrentCol === 8) allowedDirections = allowedDirections.filter(d => d !== 'Right');
+
+      let randomDirecion = allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+
+      if (randomDirecion = 'Up') CurrentRow--;
+      if (randomDirecion = 'Down') CurrentRow++;
+      if (randomDirecion = 'Left') CurrentCol--;
+      if (randomDirecion = 'Right') CurrentCol++;
+
+      DoorSelector(randomDirecion, CurrentRow, CurrentCol);
+
+    }
+
+  }
+
 
   //Literally a floor selector
   function FloorSelector() {
@@ -67,7 +95,7 @@ function Play() {
       // UpDoor: true,
       // DownDoor: true,
       // LeftDoor: true,
-      // RightDoor: true      
+      // RightDoor: true   
 
     }
 
@@ -247,7 +275,6 @@ function Play() {
         if (prev[key]) return prev;
 
         const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
-
         const updated = { ...prev, [key]: newDoors };
 
         const updateNeighbor = (neighborKey, oppositeDirection) => {
