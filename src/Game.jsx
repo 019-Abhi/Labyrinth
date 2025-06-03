@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
 import StartingRoomStuff from './assets/Decor.png';
@@ -28,26 +28,30 @@ function Play() {
 
     console.log('Treasure room: ' + TreasureRow +','+ TreasureCol )
     return {TreasureRow, TreasureCol}
+    
   };
 
   const [TreasureRoom] = useState(() => TreasureRowColGenerator());
 
-  console.log(TreasureRoom)
+  console.log (TreasureRoom)
 
   //Decalaration statements
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
   const [Floors, setFloors] = useState({});
   const [Doors, setDoors] = useState({})
-  const [Popup, setPopup] = useState(false);
+  const [HowToPlayPopup, setHowToPlayPopup] = useState(false);
+  const [WinnerPopup, setWinnerPopup] = useState(false);
+  const [ValueForUseEffect, setValueForUseEffect] = useState(1);
 
   const CharacterEmoji = '🐶';
   const rows = 9;
-  const cols = 9;
+  const cols = 9; 
 
   const gridRef = useRef(null);
 
   function GeneratePathToTreasureRoom(InitialRow, InitialCol, TreasureRow, TreasureCol) {
+
     let currentRow = InitialRow;
     let currentCol = InitialCol;
 
@@ -55,6 +59,7 @@ function Play() {
     const pathDoors = {};
 
     while (currentRow !== TreasureRow || currentCol !== TreasureCol) {
+
       const currentKey = `${currentRow}-${currentCol}`;
 
       let direction;
@@ -63,41 +68,67 @@ function Play() {
 
       // Decide direction to move closer to treasure
       if (currentRow !== TreasureRow) {
+
         direction = currentRow < TreasureRow ? 'Down' : 'Up';
         nextRow = currentRow < TreasureRow ? currentRow + 1 : currentRow - 1;
-      } else {
+      
+      } 
+      
+      else {
+
         direction = currentCol < TreasureCol ? 'Right' : 'Left';
         nextCol = currentCol < TreasureCol ? currentCol + 1 : currentCol - 1;
+      
       }
 
       const nextKey = `${nextRow}-${nextCol}`;
 
       // Initialize doors for current and next rooms if not already set
       if (!pathDoors[currentKey]) {
-        pathDoors[currentKey] = { UpDoor: false, DownDoor: false, LeftDoor: false, RightDoor: false };
+
+        pathDoors[currentKey] = { UpDoor: (Math.random() < 0.5), DownDoor: (Math.random() < 0.5), LeftDoor: (Math.random() < 0.5), RightDoor: (Math.random() < 0.5) };
+      
       }
+
       if (!pathDoors[nextKey]) {
-        pathDoors[nextKey] = { UpDoor: false, DownDoor: false, LeftDoor: false, RightDoor: false };
+
+        pathDoors[nextKey] = { UpDoor: (Math.random() < 0.5), DownDoor: (Math.random() < 0.5), LeftDoor: (Math.random() < 0.5), RightDoor: (Math.random() < 0.5) };
+      
       }
 
       // Open doors between current room and next room based on direction
       if (direction === 'Up') {
+
         pathDoors[currentKey].UpDoor = true;
         pathDoors[nextKey].DownDoor = true;
-      } else if (direction === 'Down') {
+
+      } 
+      
+      else if (direction === 'Down') {
+
         pathDoors[currentKey].DownDoor = true;
         pathDoors[nextKey].UpDoor = true;
-      } else if (direction === 'Left') {
+      
+      } 
+      
+      else if (direction === 'Left') {
+
         pathDoors[currentKey].LeftDoor = true;
         pathDoors[nextKey].RightDoor = true;
-      } else if (direction === 'Right') {
+      
+      } 
+      
+      else if (direction === 'Right') {
+
         pathDoors[currentKey].RightDoor = true;
         pathDoors[nextKey].LeftDoor = true;
+      
       }
 
       // Move to next room
       currentRow = nextRow;
       currentCol = nextCol;
+
     }
 
     return pathDoors;
@@ -115,13 +146,13 @@ function Play() {
 
   };
 
-  //And a door selector randomizergdfgfgfW
+  //And a door selector randomizer
   function DoorSelector(FixedDoorinNewRoom, CurrentRow, CurrentCol, EntireDoorsState = {}) {
 
     const doors = {
 
       UpDoor: Math.random() < 0.5,
-      DownDoor: Math.random() < 0.5,
+      DownDoor: Math.random() < 0.5, 
       LeftDoor: Math.random() < 0.5,
       RightDoor: Math.random() < 0.5
 
@@ -190,14 +221,9 @@ function Play() {
   }
 
   //Useeffect to run the path generator function
-  useEffect(() => {
+  useEffect (() => {
 
-    const pathDoors = GeneratePathToTreasureRoom(
-      InitialPosition.Row,
-      InitialPosition.Col,
-      TreasureRoom.TreasureRow,
-      TreasureRoom.TreasureCol
-    );
+    const pathDoors = GeneratePathToTreasureRoom ( InitialPosition.Row,InitialPosition.Col,TreasureRoom.TreasureRow,TreasureRoom.TreasureCol );
 
     // Merge with current doors, preserving any existing doors (e.g., starting room's all doors)
     setDoors(prevDoors => {
@@ -219,7 +245,7 @@ function Play() {
 
       return merged;
     });
-  }, [InitialPosition]);
+  }, [ValueForUseEffect]);
 
 
   //useeffect for the starting room to have doors and floor 
@@ -238,15 +264,15 @@ function Play() {
 
     const StartingRoomFloor = 'StartingRoomFloor'
 
-    setFloors({ [key]: StartingRoomFloor });
+    setFloors({ [key]: 'Floor9' });
     setDoors({ [key]: DoorsforStartingRoom });
 
   }, []);
 
 
-
   //To check which arrow key is pressed; updates CurrentPosition and VisitedRooms
   useEffect(() => {
+
     function handleKeyDown(event) {
       let newRow = CurrentPosition.Row;
       let newCol = CurrentPosition.Col;
@@ -404,15 +430,26 @@ function Play() {
 
   }, [CurrentPosition])
 
+  //Confetti popup
   useEffect(() => {
     if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol) {
+
+      setWinnerPopup(true);
+
       confetti({
-        particleCount: 800,
-        spread: 300,
+        particleCount: 1000,
+        spread: 800,
         origin: { y: 0.6 }
       });
     }
   }, [CurrentPosition]);
+
+  //For the path generator use effect to work this has to run atleast onc
+  useEffect(() => {
+    if (ValueForUseEffect <= 1) {
+      setValueForUseEffect(prev => prev + 1);
+    }
+  }, [ValueForUseEffect]);
 
 
   //HTML beings *applause*
@@ -423,7 +460,7 @@ function Play() {
 
       <div className = 'HelpButtonWrapper'>
         
-        <button className = 'HelpButton' onClick = {() => setPopup(true)}>
+        <button className = 'HelpButton' onClick = {() => setHowToPlayPopup(true)}>
           How To Play
         </button>
 
@@ -433,7 +470,7 @@ function Play() {
       <div className="Outer_Box_Flex" ref={gridRef}>
 
         {/* Help button div */}
-        {Popup && (
+        {HowToPlayPopup && (
           <div className = 'JustToCenterHelpWindow'>
             <div className = 'HelpWindow'>
 
@@ -453,9 +490,40 @@ function Play() {
               </p>
 
               <div className = 'HelpCancelButtonWrapper'>
-                <button className = 'HelpCancelButton' onClick = {() => setPopup(false)}>
+                <button className = 'HelpCancelButton' onClick = {() => setHowToPlayPopup(false)}>
                   Close
                 </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* After Win Popup */}
+        {WinnerPopup && (
+          <div className = 'JustToCenterWinnerWindow'>
+            <div className = 'WinnerWindow'>
+
+              <h1 className = 'WinnerHeading'>⚜️ Congratulations! ⚜️</h1>
+
+              <p className = 'WinnerText'>
+
+                You've found your way out of The Hidden Labyrinth
+
+              </p>
+
+              <div className = 'WinnerCancelButtonWrapper'>
+
+                <button className = 'WinnerCancelButton' onClick = {() => setWinnerPopup(false)}>
+                  Close
+                </button>
+
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+
+                <button className = 'WinnerPlayAgainButton' onClick = {() => window.location.reload()}>
+                  Play Again
+                </button>
+
               </div>
 
             </div>
@@ -482,13 +550,6 @@ function Play() {
 
                       {/* Loads walls and conditionally doors :) */}
                       <div className = {Floors[key]}>
-
-                        {CurrentPosition.Row == InitialPosition.Row && CurrentPosition.Col == InitialPosition.Col ? (
-                          <div className = 'StartingRoomElements'>
-                            {/* <img src = {StartingRoomStuff} alt = 'pole and stuff' /> */}
-                          </div>
-
-                        ) : null}
 
                         {row !== 0 && Doors[key]?.UpDoor && <div className= "DoorUp" />}
                         {row !== 8 && Doors[key]?.DownDoor && <div className= "DoorDown" />}

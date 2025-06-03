@@ -81,27 +81,58 @@ body {
 
 
 .Floor1{
-  background: repeating-linear-gradient(45deg, white 40px, black 20px, grey 45px);
+
+  background: repeating-linear-gradient(45deg, white 10px, black 5px, grey 35px);
+
 }
 
 .Floor2{
-  background-color: #1B263B;
+
+  background-color: chocolate;
+  background-image: 
+    linear-gradient(to right, black 2px, transparent 1px),
+    linear-gradient(to bottom, black 2px, transparent 1px);
+  background-size: 40px 40px;
+
 }
 
 .Floor3{
-  background-color: aquamarine;
+
+  background-color: #bb6c34;
+  background-image:
+    linear-gradient(to right, #8b4513 10px, transparent 10px),
+    linear-gradient(to bottom, #8b4513 10px, transparent 10px),
+    linear-gradient(to right, transparent 50%, #8b4513 50%);
+  background-size: 40px 20px;
+  background-position: 0 0, 0 0, 20px 10px;
+
 }
 
 .Floor4{
-  background-color: #7a1c48;
+
+  background-color: #c4937d;
+    background-image: 
+    linear-gradient(135deg, black 35%, transparent 25%),
+    linear-gradient(225deg, black 35%, transparent 25%),
+    linear-gradient(315deg, black 35%, transparent 25%),
+    linear-gradient(45deg, black 35%, transparent 25%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+
 }
 
 .Floor5{
-  background-color: #70a842;
+
+  background-color: rgb(196, 191, 191);
+  background-image: radial-gradient(black 10%, transparent 11%);
+  background-size: 40px 40px;  
+
 }
 
 .Floor6{
-  background-color: #c4937d;
+
+  background-color: rgb(173, 120, 173);
+    
 }
 
 .Floor7{
@@ -113,8 +144,13 @@ body {
 }
 
 .Floor9{
-  background-color: #abbddd;
-}
+
+  background-color: #555555;
+  background-image:
+    repeating-linear-gradient(45deg, black, black 1px, transparent 1px, transparent 10px),
+    repeating-linear-gradient(-45deg, black, black 1px, transparent 1px, transparent 10px);
+  
+  }
 
 .Floor10{
   background-color: #ac8383;
@@ -122,7 +158,13 @@ body {
 
 .StartingRoomFloor{
 
-  background-color: #5c3d2e;
+  background-color: white;
+  background-image: 
+    linear-gradient(45deg, black 25%, transparent 25%), 
+    linear-gradient(-45deg, black 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, black 75%),
+    linear-gradient(-45deg, transparent 75%, black 75%);
+  background-size: 4vh 3vw;
 
 }
 
@@ -283,7 +325,6 @@ body {
 
 }
 
-
 .Room_Visited {
 
   height: 100%; 
@@ -327,7 +368,7 @@ body {
 
 }
 
-.JustToCenterHelpWindow{
+.JustToCenterHelpWindow, .JustToCenterWinnerWindow{
 
   position: fixed;
   top: 0;
@@ -345,7 +386,7 @@ body {
 
 }
 
-.HelpWindow {
+.HelpWindow, .WinnerWindow {
 
   height: 64vh;
   width: 77.77vh;
@@ -358,7 +399,14 @@ body {
 
 }
 
-.HelpHeading{
+.WinnerWindow{
+
+  width: 70vh;
+  height: 21vh;
+
+}
+
+.HelpHeading, .WinnerHeading{
 
   font-size:1.7rem;
   color: #a67c00;
@@ -371,7 +419,13 @@ body {
 
 }
 
-.HelpText{
+.WinnerHeading{
+
+  margin-top: 1vh;
+
+}
+
+.HelpText, .WinnerText{
 
   text-align: center;
   font-family: 'Georgia', serif;
@@ -381,7 +435,13 @@ body {
   margin-top: 6vh;
 }
 
-.HelpCancelButtonWrapper{
+.WinnerText{
+
+  margin-top: 0vh;
+
+}
+
+.HelpCancelButtonWrapper, .WinnerCancelButtonWrapper{
 
   display: flex;
   justify-content: center;
@@ -389,7 +449,7 @@ body {
 
 }
 
-.HelpCancelButton {
+.HelpCancelButton, .WinnerCancelButton, .WinnerPlayAgainButton {
 
   font-family: 'Georgia', serif;
   background-color: #a08453; 
@@ -439,26 +499,5 @@ body {
   background-color: #7a5e34;
   transform: scale(1.04);
 }
+ 
 
-.StartingRoomElements {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 1; 
-  pointer-events: none; 
-}
-
-.StartingRoomElements img {
-  width: 100px;
-  height: auto;
-  object-fit: contain;
-  transform: scale(1.2); /* optional for effect */
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
-}
