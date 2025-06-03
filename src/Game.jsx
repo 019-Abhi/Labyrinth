@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
 import StartingRoomStuff from './assets/Decor.png';
+
+
 function Play() {
 
   //Initial position
@@ -21,9 +23,10 @@ function Play() {
     }
 
     else{
-      TreasureCol = Math.random() < 0.5 ? 0 : 8
+      TreasureCol = Math.random() < 0.5 ? 0 : 8;
     }
 
+    console.log('Treasure room: ' + TreasureRow +','+ TreasureCol )
     return {TreasureRow, TreasureCol}
   };
 
@@ -44,33 +47,63 @@ function Play() {
 
   const gridRef = useRef(null);
 
-  function GeneratePathToTreausreRoom(InitialRow, InitialCol,){
+  function GeneratePathToTreasureRoom(InitialRow, InitialCol, TreasureRow, TreasureCol) {
+    let currentRow = InitialRow;
+    let currentCol = InitialCol;
 
-    let CurrentRow = InitialRow;
-    let CurrentCol = InitialCol;
+    // Object to hold door states along the treasure path
+    const pathDoors = {};
 
-    while (CurrentRow !== TreasureRoom.TreasureRow && CurrentCol !== TreasureRoom.TreasureCol){
+    while (currentRow !== TreasureRow || currentCol !== TreasureCol) {
+      const currentKey = `${currentRow}-${currentCol}`;
 
-      const key = `${CurrentRow}-${CurrentCol}`;
-      let allowedDirections = ['Up', 'Down', 'Left', 'Right'];
+      let direction;
+      let nextRow = currentRow;
+      let nextCol = currentCol;
 
-      if (CurrentRow === 0) allowedDirections = allowedDirections.filter(d => d !== 'Up');
-      if (CurrentRow === 8) allowedDirections = allowedDirections.filter(d => d !== 'Down');
-      if (CurrentCol === 0) allowedDirections = allowedDirections.filter(d => d !== 'Left');
-      if (CurrentCol === 8) allowedDirections = allowedDirections.filter(d => d !== 'Right');
+      // Decide direction to move closer to treasure
+      if (currentRow !== TreasureRow) {
+        direction = currentRow < TreasureRow ? 'Down' : 'Up';
+        nextRow = currentRow < TreasureRow ? currentRow + 1 : currentRow - 1;
+      } else {
+        direction = currentCol < TreasureCol ? 'Right' : 'Left';
+        nextCol = currentCol < TreasureCol ? currentCol + 1 : currentCol - 1;
+      }
 
-      let randomDirecion = allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+      const nextKey = `${nextRow}-${nextCol}`;
 
-      if (randomDirecion = 'Up') CurrentRow--;
-      if (randomDirecion = 'Down') CurrentRow++;
-      if (randomDirecion = 'Left') CurrentCol--;
-      if (randomDirecion = 'Right') CurrentCol++;
+      // Initialize doors for current and next rooms if not already set
+      if (!pathDoors[currentKey]) {
+        pathDoors[currentKey] = { UpDoor: false, DownDoor: false, LeftDoor: false, RightDoor: false };
+      }
+      if (!pathDoors[nextKey]) {
+        pathDoors[nextKey] = { UpDoor: false, DownDoor: false, LeftDoor: false, RightDoor: false };
+      }
 
-      DoorSelector(randomDirecion, CurrentRow, CurrentCol);
+      // Open doors between current room and next room based on direction
+      if (direction === 'Up') {
+        pathDoors[currentKey].UpDoor = true;
+        pathDoors[nextKey].DownDoor = true;
+      } else if (direction === 'Down') {
+        pathDoors[currentKey].DownDoor = true;
+        pathDoors[nextKey].UpDoor = true;
+      } else if (direction === 'Left') {
+        pathDoors[currentKey].LeftDoor = true;
+        pathDoors[nextKey].RightDoor = true;
+      } else if (direction === 'Right') {
+        pathDoors[currentKey].RightDoor = true;
+        pathDoors[nextKey].LeftDoor = true;
+      }
 
+      // Move to next room
+      currentRow = nextRow;
+      currentCol = nextCol;
     }
 
+    return pathDoors;
   }
+
+
 
 
   //Literally a floor selector
@@ -82,7 +115,7 @@ function Play() {
 
   };
 
-  //And a door selector randomizer
+  //And a door selector randomizergdfgfgfW
   function DoorSelector(FixedDoorinNewRoom, CurrentRow, CurrentCol, EntireDoorsState = {}) {
 
     const doors = {
@@ -92,10 +125,10 @@ function Play() {
       LeftDoor: Math.random() < 0.5,
       RightDoor: Math.random() < 0.5
 
-      // UpDoor: true,
-      // DownDoor: true,
-      // LeftDoor: true,
-      // RightDoor: true   
+      // UpDoor: false,
+      // DownDoor: false,
+      // LeftDoor: false,
+      // RightDoor: false   
 
     }
 
@@ -155,6 +188,38 @@ function Play() {
     return doors;
 
   }
+
+  //Useeffect to run the path generator function
+  useEffect(() => {
+
+    const pathDoors = GeneratePathToTreasureRoom(
+      InitialPosition.Row,
+      InitialPosition.Col,
+      TreasureRoom.TreasureRow,
+      TreasureRoom.TreasureCol
+    );
+
+    // Merge with current doors, preserving any existing doors (e.g., starting room's all doors)
+    setDoors(prevDoors => {
+      const merged = { ...prevDoors };
+
+      for (const key in pathDoors) {
+        if (!merged[key]) {
+          merged[key] = pathDoors[key];
+        } else {
+          // Merge door booleans with OR logic
+          merged[key] = {
+            UpDoor: merged[key].UpDoor || pathDoors[key].UpDoor,
+            DownDoor: merged[key].DownDoor || pathDoors[key].DownDoor,
+            LeftDoor: merged[key].LeftDoor || pathDoors[key].LeftDoor,
+            RightDoor: merged[key].RightDoor || pathDoors[key].RightDoor,
+          };
+        }
+      }
+
+      return merged;
+    });
+  }, [InitialPosition]);
 
 
   //useeffect for the starting room to have doors and floor 
@@ -418,9 +483,9 @@ function Play() {
                       {/* Loads walls and conditionally doors :) */}
                       <div className = {Floors[key]}>
 
-                        {CurrentPosition == InitialPosition ? (
+                        {CurrentPosition.Row == InitialPosition.Row && CurrentPosition.Col == InitialPosition.Col ? (
                           <div className = 'StartingRoomElements'>
-                            <img src = {StartingRoomStuff} alt = 'pole and stuff' />
+                            {/* <img src = {StartingRoomStuff} alt = 'pole and stuff' /> */}
                           </div>
 
                         ) : null}

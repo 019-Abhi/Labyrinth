@@ -16,7 +16,7 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
 
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: hidden;
 
 }
