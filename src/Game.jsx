@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
-import StartingRoomStuff from './assets/Decor.png';
-
 
 function Play() {
 
@@ -43,6 +41,7 @@ function Play() {
   const [HowToPlayPopup, setHowToPlayPopup] = useState(false);
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
+  const [Seconds, setSeconds] = useState(40)
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -411,7 +410,6 @@ function Play() {
     };
   }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
 
-
   //To scroll new room into view
   useEffect(() => {
 
@@ -445,11 +443,31 @@ function Play() {
   }, [CurrentPosition]);
 
   //For the path generator use effect to work this has to run atleast onc
+    useEffect(() => {
+      if (ValueForUseEffect <= 1) {
+        setValueForUseEffect(prev => prev + 1);
+      }
+    }, [ValueForUseEffect]);
+
+
+  //Timer UseEffect
   useEffect(() => {
-    if (ValueForUseEffect <= 1) {
-      setValueForUseEffect(prev => prev + 1);
-    }
-  }, [ValueForUseEffect]);
+
+    const interval = setInterval(() => {
+
+      setSeconds(prevSeconds => {
+
+        if (prevSeconds === 0) {
+          clearInterval(interval);
+          return 0; 
+        }
+
+        return prevSeconds - 1; 
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
 
   //HTML beings *applause*
@@ -463,6 +481,16 @@ function Play() {
         <button className = 'HelpButton' onClick = {() => setHowToPlayPopup(true)}>
           How To Play
         </button>
+
+      </div>
+
+      <div className = 'Timerdiv'>
+
+        <div className = 'Timer'>
+          <center>
+            <p> {Seconds}</p>
+          </center>
+        </div>
 
       </div>
 

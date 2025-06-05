@@ -16,11 +16,11 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
 
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: scroll;
+  overflow-x: scroll;
 
 }
-
+ 
 .Outer_Box_Flex{
 
   display: flex;
@@ -47,6 +47,8 @@ body {
 
   height: 90%;
   width: 90%;
+
+  border: 2px solid red;
 
   margin-top: 10vh;
   transform: rotateX(55deg) rotateY(0deg) rotateZ(-30deg);
@@ -500,4 +502,27 @@ body {
   transform: scale(1.04);
 }
  
+.Timerdiv{
 
+  background-color: #000000;
+
+  top: 2vh;
+  right: 2vw;
+  position: fixed;
+  height: 8vh;
+  width: 13vw;
+
+  border-radius: 1.1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.Timer{
+
+  font-size: larger;
+  color: #6b9e28;
+
+}
