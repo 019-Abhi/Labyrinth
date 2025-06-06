@@ -455,7 +455,7 @@ function Play() {
 
     const interval = setInterval(() => {
 
-      setSeconds(prevSeconds => {
+      setSeconds(prevSeconds => { 
 
         if (prevSeconds === 0) {
           clearInterval(interval);

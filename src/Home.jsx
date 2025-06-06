@@ -30,13 +30,13 @@ function Home() {
     
                         <button onClick={() => navigate('/game')} className = 'PlayButton'>
                             Play
-                        </button>
+                        </button> 
 
                     </div>
 
                     
                 </center>
-            </div>
+            </div>isdnhgiusnfuig nilsudfng dfjgn isudf sdfg sdhg sdgh gunldufgn odfgn sdufg so right now i am typing in this tupid idiot of an app
         </div>
     );
 };

@@ -48,8 +48,6 @@ body {
   height: 90%;
   width: 90%;
 
-  border: 2px solid red;
-
   margin-top: 10vh;
   transform: rotateX(55deg) rotateY(0deg) rotateZ(-30deg);
 
