@@ -36,9 +36,9 @@ function Home() {
 
                     
                 </center>
-            </div>isdnhgiusnfuig nilsudfng dfjgn isudf sdfg sdhg sdgh gunldufgn odfgn sdufg so right now i am typing in this tupid idiot of an app
+            </div>
         </div>
     );
 };
 
-export default Home;
+export default Home; 
