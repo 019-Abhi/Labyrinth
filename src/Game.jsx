@@ -42,7 +42,7 @@ function Play() {
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(2);
+  const [Seconds, setSeconds] = useState(30);
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
 
@@ -462,10 +462,12 @@ function Play() {
       setSeconds(prevSeconds => { 
 
         if (prevSeconds === 1) {
+
           clearInterval(intervalRef.current);
           setAllowMovement(false);
           setLoserPopup(true);
           return 0; 
+          
         }
 
         return prevSeconds - 1; 
