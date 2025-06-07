@@ -17,7 +17,7 @@ body {
   align-items: flex-start;
 
   overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-x: hidden; 
 
 }
  
@@ -386,7 +386,7 @@ body {
 
 }
 
-.HelpWindow, .WinnerWindow {
+.HelpWindow, .WinnerWindow, .LoserWindow {
 
   height: 64vh;
   width: 77.77vh;
@@ -403,6 +403,13 @@ body {
 
   width: 70vh;
   height: 21vh;
+
+}
+
+.LoserWindow{
+
+  width: 70vh;
+  height: 25vh;
 
 }
 
@@ -449,7 +456,7 @@ body {
 
 }
 
-.HelpCancelButton, .WinnerCancelButton, .WinnerPlayAgainButton {
+.HelpCancelButton, .WinnerCancelButton, .WinnerPlayAgainButton, .LoserPlayAgainButton {
 
   font-family: 'Georgia', serif;
   background-color: #a08453; 
@@ -468,12 +475,19 @@ body {
 
 }
 
+.LoserPlayAgainButton{
+
+  margin-top: -0.5vh;
+
+}
+
+
 .HelpCancelButton:hover {
   background-color: #7a5e34;
   transform: scale(1.04);
 }
 
-.HelpButton{
+.HelpButton, .Timerdiv {
 
   position: fixed;
   bottom: 2vh;
@@ -493,6 +507,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   transition: background 0.3s ease;
+
 }
 
 .HelpCancelButton:hover {
@@ -500,17 +515,18 @@ body {
   transform: scale(1.04);
 }
  
-.Timerdiv{
 
-  background-color: #000000;
+.Timerdiv{
 
   top: 2vh;
   right: 2vw;
   position: fixed;
-  height: 8vh;
-  width: 13vw;
 
-  border-radius: 1.1rem;
+  border: 2px solid #5c3d2e; 
+  background-color: rgb(190, 157, 99); 
+  
+  height: 4vh;
+  width: 6vw;
 
   display: flex;
   justify-content: center;
@@ -520,7 +536,8 @@ body {
 
 .Timer{
 
-  font-size: larger;
-  color: #6b9e28;
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
 
 }

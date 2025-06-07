@@ -40,8 +40,10 @@ function Play() {
   const [Doors, setDoors] = useState({})
   const [HowToPlayPopup, setHowToPlayPopup] = useState(false);
   const [WinnerPopup, setWinnerPopup] = useState(false);
+  const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(40)
+  const [Seconds, setSeconds] = useState(20)
+  const intervalRef = useRef(null)
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -134,8 +136,6 @@ function Play() {
   }
 
 
-
-
   //Literally a floor selector
   function FloorSelector() {
 
@@ -150,15 +150,15 @@ function Play() {
 
     const doors = {
 
-      UpDoor: Math.random() < 0.5,
-      DownDoor: Math.random() < 0.5, 
-      LeftDoor: Math.random() < 0.5,
-      RightDoor: Math.random() < 0.5
+      // UpDoor: Math.random() < 0.5,
+      // DownDoor: Math.random() < 0.5, 
+      // LeftDoor: Math.random() < 0.5,
+      // RightDoor: Math.random() < 0.5
 
-      // UpDoor: false,
-      // DownDoor: false,
-      // LeftDoor: false,
-      // RightDoor: false   
+      UpDoor: false,
+      DownDoor: false,
+      LeftDoor: false,
+      RightDoor: false   
 
     }
 
@@ -453,22 +453,36 @@ function Play() {
   //Timer UseEffect
   useEffect(() => {
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
 
       setSeconds(prevSeconds => { 
 
         if (prevSeconds === 0) {
-          clearInterval(interval);
+          clearInterval(intervalRef.current);
+          setLoserPopup(true);
           return 0; 
         }
 
         return prevSeconds - 1; 
+
       });
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current);
   }, []);
 
+  //useEffect for stopping timer when player wins
+  useEffect(() =>{
+
+    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol){
+
+      clearInterval(intervalRef.current);
+      
+    }
+
+  }, [CurrentPosition])
+
+  
 
   //HTML beings *applause*
   return (
@@ -557,6 +571,36 @@ function Play() {
             </div>
           </div>
         )}
+
+        {/* Loser Popup */}
+        {LoserPopup && (
+
+          <div className = 'JustToCenterWinnerWindow'>
+            <div className = 'LoserWindow'>
+
+              <h1 className = 'WinnerHeading'>⚜️ Your Path Ends Here ⚜️</h1>
+
+              <p className = 'WinnerText'>
+
+                 The sands of time have run dry, <br />
+                the Labyrinth has claimed another wanderer
+
+              </p>
+          
+              <div className = 'WinnerCancelButtonWrapper'>
+                
+                <button className = 'LoserPlayAgainButton' onClick = {() => window.location.reload()}>
+                  Play Again
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+          
+        )}
+
+
 
 
         {/* Grid and printing rooms */}
