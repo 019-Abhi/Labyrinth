@@ -37,13 +37,14 @@ function Play() {
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
   const [Floors, setFloors] = useState({});
-  const [Doors, setDoors] = useState({})
+  const [Doors, setDoors] = useState({});
   const [HowToPlayPopup, setHowToPlayPopup] = useState(false);
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(20)
-  const intervalRef = useRef(null)
+  const [Seconds, setSeconds] = useState(2);
+  const intervalRef = useRef(null);
+  const [AllowMovement, setAllowMovement] = useState(true);
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -272,135 +273,138 @@ function Play() {
   //To check which arrow key is pressed; updates CurrentPosition and VisitedRooms
   useEffect(() => {
 
-    function handleKeyDown(event) {
-      let newRow = CurrentPosition.Row;
-      let newCol = CurrentPosition.Col;
-      let handled = false;
-      let FixedDoorinNewRoom = null;
+      function handleKeyDown(event) {
+        let newRow = CurrentPosition.Row;
+        let newCol = CurrentPosition.Col;
+        let handled = false;
+        let FixedDoorinNewRoom = null;
 
 
-      switch (event.key) {
+        if (AllowMovement === true){
 
-        case 'ArrowUp':
+          switch (event.key) {
 
-          if (Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. UpDoor){
+            case 'ArrowUp':
 
-            newRow = Math.max(0, CurrentPosition.Row - 1);
-            FixedDoorinNewRoom = 'Down';
-            handled = true;
+              if (Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. UpDoor){
+
+                newRow = Math.max(0, CurrentPosition.Row - 1);
+                FixedDoorinNewRoom = 'Down';
+                handled = true;
+
+              }
+
+              break;
+
+            case 'ArrowDown':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. DownDoor){
+
+                newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+                FixedDoorinNewRoom = 'Up';
+                handled = true;
+
+              }
+
+              break;
+
+            case 'ArrowLeft':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. LeftDoor){
+
+                newCol = Math.max(0, CurrentPosition.Col - 1);
+                handled = true;
+                FixedDoorinNewRoom = 'Right';
+
+              }
+
+              break;
+
+            case 'ArrowRight':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. RightDoor){
+
+                newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+                FixedDoorinNewRoom = 'Left';
+                handled = true;
+
+              }
+
+              break;
+
+            default:
+              return;
 
           }
+        }
 
-          break;
+        //Updates CurrentPosition and VisitedRooms
+        const newPosition = { Row: newRow, Col: newCol };
+        setCurrentPosition(newPosition);
+        setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
 
-        case 'ArrowDown':
 
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. DownDoor){
 
-            newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
-            FixedDoorinNewRoom = 'Up';
-            handled = true;
+        //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
+        setFloors(prev => {
 
+          const key = `${newRow}-${newCol}`;
+
+          if (prev[key]) {
+            return prev;
+          };
+
+          return {
+            ...prev,
+            [key]: FloorSelector()
+          };
+
+        });
+
+        //To assign new doors for new rooms and keep old door patterns for visited rooms
+        setDoors(prev => {
+          
+          const key = `${newRow}-${newCol}`;
+
+          if (prev[key]) return prev;
+
+          const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
+          const updated = { ...prev, [key]: newDoors };
+
+          const updateNeighbor = (neighborKey, oppositeDirection) => {
+
+            if (updated[neighborKey]) {
+
+              updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
+
+            }
+          };
+
+          if (newDoors.UpDoor) {
+            updateNeighbor(`${newRow - 1}-${newCol}`, 'DownDoor');
           }
 
-          break;
-
-        case 'ArrowLeft':
-
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. LeftDoor){
-
-            newCol = Math.max(0, CurrentPosition.Col - 1);
-            handled = true;
-            FixedDoorinNewRoom = 'Right';
-
+          if (newDoors.DownDoor) {
+            updateNeighbor(`${newRow + 1}-${newCol}`, 'UpDoor');
           }
 
-          break;
-
-        case 'ArrowRight':
-
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. RightDoor){
-
-            newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
-            FixedDoorinNewRoom = 'Left';
-            handled = true;
-
+          if (newDoors.LeftDoor) {
+            updateNeighbor(`${newRow}-${newCol - 1}`, 'RightDoor');
           }
 
-          break;
+          if (newDoors.RightDoor) {
+            updateNeighbor(`${newRow}-${newCol + 1}`, 'LeftDoor');
+          }
 
-        default:
-          return;
+          return updated;
+        });
 
+
+        //Prevents scrolling when arrow keys are pressed
+        if (handled) {
+          event.preventDefault();
+        }
       }
-
-      //Updates CurrentPosition and VisitedRooms
-      const newPosition = { Row: newRow, Col: newCol };
-      setCurrentPosition(newPosition);
-      setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
-
-
-
-      //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
-      setFloors(prev => {
-
-        const key = `${newRow}-${newCol}`;
-
-        if (prev[key]) {
-          return prev;
-        };
-
-        return {
-          ...prev,
-          [key]: FloorSelector()
-        };
-
-      });
-
-      //To assign new doors for new rooms and keep old door patterns for visited rooms
-      setDoors(prev => {
-        
-        const key = `${newRow}-${newCol}`;
-
-        if (prev[key]) return prev;
-
-        const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
-        const updated = { ...prev, [key]: newDoors };
-
-        const updateNeighbor = (neighborKey, oppositeDirection) => {
-
-          if (updated[neighborKey]) {
-
-            updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
-
-          }
-        };
-
-        if (newDoors.UpDoor) {
-          updateNeighbor(`${newRow - 1}-${newCol}`, 'DownDoor');
-        }
-
-        if (newDoors.DownDoor) {
-          updateNeighbor(`${newRow + 1}-${newCol}`, 'UpDoor');
-        }
-
-        if (newDoors.LeftDoor) {
-          updateNeighbor(`${newRow}-${newCol - 1}`, 'RightDoor');
-        }
-
-        if (newDoors.RightDoor) {
-          updateNeighbor(`${newRow}-${newCol + 1}`, 'LeftDoor');
-        }
-
-        return updated;
-      });
-
-
-      //Prevents scrolling when arrow keys are pressed
-      if (handled) {
-        event.preventDefault();
-      }
-    }
 
     //Cleans up the keydown listener after use, saves memory (I think)
     document.addEventListener('keydown', handleKeyDown);
@@ -457,8 +461,9 @@ function Play() {
 
       setSeconds(prevSeconds => { 
 
-        if (prevSeconds === 0) {
+        if (prevSeconds === 1) {
           clearInterval(intervalRef.current);
+          setAllowMovement(false);
           setLoserPopup(true);
           return 0; 
         }
