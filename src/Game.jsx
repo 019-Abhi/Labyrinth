@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
+import { FaVolumeXmark } from "react-icons/fa6";
+import { IoVolumeMediumSharp } from "react-icons/io5";
 
 function Play() {
 
@@ -8,7 +10,7 @@ function Play() {
   const InitialPosition = {
     "Row": 4,
     "Col": 4
-  };
+  }; 
 
   //Creates a random treasure room
   function TreasureRowColGenerator() {
@@ -45,6 +47,7 @@ function Play() {
   const [Seconds, setSeconds] = useState(30);
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
+  const [Muted, setMuted] = useState(false);
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -512,6 +515,14 @@ function Play() {
             <p> {Seconds}</p>
           </center>
         </div>
+
+      </div>
+
+      <div className = 'AudioDiv'>
+
+        <button className = 'Audio' onClick = { () => setMuted(!Muted)}>
+          {Muted? <FaVolumeXmark className = 'VolumeOffIcon'/> : <IoVolumeMediumSharp className = 'VolumeOnIcon'/>}
+        </button>
 
       </div>
 
