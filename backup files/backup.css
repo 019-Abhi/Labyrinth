@@ -10,51 +10,49 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-x: hidden; 
 
 }
-
+ 
 .Outer_Box_Flex{
 
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 
-  height: 98vh;
+  height: 160vh;
   width: 100vw;
 
   overflow-y: scroll;
-  overflow-x: scroll;
-
-
+  overflow-x: hidden;
 }
 
 .Outer_Box_Grid {
   
   display: grid;
-  grid-template-columns: repeat(9, 30vw); 
-  grid-template-rows: repeat(9, 60vh);
+  grid-template-columns: repeat(9, 35vw); 
+  grid-template-rows: repeat(9, 65vh);
 
   overflow-x: scroll;
   overflow-y: scroll;
 
   transform-style: preserve-3d;
 
-  height: 80%;
-  width: 80%;
+  height: 90%;
+  width: 90%;
 
-  margin-top: 15vh;
+  margin-top: 10vh;
+  transform: rotateX(55deg) rotateY(0deg) rotateZ(-30deg);
 
-  transform: rotateX(60deg) rotateY(0deg) rotateZ(-40deg);
-
-
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .Outer_Box_Flex::-webkit-scrollbar{
@@ -83,27 +81,58 @@ body {
 
 
 .Floor1{
-  background: repeating-linear-gradient(45deg, white 40px, black 20px, grey 45px);
+
+  background: repeating-linear-gradient(45deg, white 10px, black 5px, grey 35px);
+
 }
 
 .Floor2{
-  background-color: #1B263B;
+
+  background-color: chocolate;
+  background-image: 
+    linear-gradient(to right, black 2px, transparent 1px),
+    linear-gradient(to bottom, black 2px, transparent 1px);
+  background-size: 40px 40px;
+
 }
 
 .Floor3{
-  background-color: aquamarine;
+
+  background-color: #bb6c34;
+  background-image:
+    linear-gradient(to right, #8b4513 10px, transparent 10px),
+    linear-gradient(to bottom, #8b4513 10px, transparent 10px),
+    linear-gradient(to right, transparent 50%, #8b4513 50%);
+  background-size: 40px 20px;
+  background-position: 0 0, 0 0, 20px 10px;
+
 }
 
 .Floor4{
-  background-color: #7a1c48;
+
+  background-color: #c4937d;
+    background-image: 
+    linear-gradient(135deg, black 35%, transparent 25%),
+    linear-gradient(225deg, black 35%, transparent 25%),
+    linear-gradient(315deg, black 35%, transparent 25%),
+    linear-gradient(45deg, black 35%, transparent 25%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+
 }
 
 .Floor5{
-  background-color: #70a842;
+
+  background-color: rgb(196, 191, 191);
+  background-image: radial-gradient(black 10%, transparent 11%);
+  background-size: 40px 40px;  
+
 }
 
 .Floor6{
-  background-color: #c4937d;
+
+  background-color: rgb(173, 120, 173);
+    
 }
 
 .Floor7{
@@ -115,96 +144,184 @@ body {
 }
 
 .Floor9{
-  background-color: #abbddd;
-}
+
+  background-color: #555555;
+  background-image:
+    repeating-linear-gradient(45deg, black, black 1px, transparent 1px, transparent 10px),
+    repeating-linear-gradient(-45deg, black, black 1px, transparent 1px, transparent 10px);
+  
+  }
 
 .Floor10{
   background-color: #ac8383;
 }
 
+.StartingRoomFloor{
+
+  background-color: white;
+  background-image: 
+    linear-gradient(45deg, black 25%, transparent 25%), 
+    linear-gradient(-45deg, black 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, black 75%),
+    linear-gradient(-45deg, transparent 75%, black 75%);
+  background-size: 4vh 3vw;
+
+}
+
+.DoorDown {
+
+  position: absolute;
+  bottom: 0; 
+  left: 50%;
+  transform: translateX(-1.3vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
+
+  width: 10vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset 0 -10px 30px rgba(255, 255, 255, 0.05),  
+    inset 0 15px 25px rgba(0, 0, 0, 0.7),
+    0 0 15px 2px rgba(40, 40, 40, 0.8);   
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+
+}
+
+.DoorUp{
+  
+  position: absolute;
+  bottom: 0; 
+  left: 52%;
+  transform: translateX(-2vw) rotateZ(0deg) rotateY(0deg) translateY(-65vh) translateZ(480vh);
+
+  width: 10vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset 0 -10px 30px rgba(255, 255, 255, 0.05),  
+    inset 0 -15px 25px rgba(0, 0, 0, 0.7),
+    0 0 15px 2px rgba(40, 40, 40, 0.8);   
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+
+}
+
+.DoorRight {
+
+  position: absolute;
+  bottom: 55%; 
+  left: 100%;
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
+
+  width: 9.4vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset -10px 0 30px rgba(255, 255, 255, 0.05),  
+    inset 15px 0 25px rgba(0, 0, 0, 0.7),
+    0px 0 15px 2px rgba(40, 40, 40, 0.8);
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+  opacity: 0.9;
+
+}
+
+.DoorLeft {
+
+  position: absolute;
+  bottom: 55%; 
+  left: 0%;
+  transform: translateX(-0.2vw) rotateZ(0deg) rotateY(0deg) translateY(0.3vh) translateZ(480vh);
+
+  width: 9.4vh;
+  height: 9.3vh;
+
+  background: rgb(95, 94, 94);
+  
+  box-shadow:
+    inset -10px 0 30px rgba(255, 255, 255, 0.05),  
+    inset 15px 0 25px rgba(0, 0, 0, 0.7),
+    0px 0 15px 2px rgba(40, 40, 40, 0.8); 
+
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  z-index: 999;
+
+}
+
 .WallUp {
-
   width: 100%;
-  height: 70px;
+  height: 9.11vh; 
   position: absolute;
   top: 0;
   left: 0;
 
-  background: linear-gradient(to bottom, #ccc, #666);
+  background: linear-gradient(to bottom, #e0e0e0, #888888, #444444); 
 
-  transform: rotateX(-10deg) translateZ(20px) translateY(-10px);
+  transform: rotateX(-10deg) translateZ(-44.92vh) translateY(-1.30vh) translateX(00vh); 
   transform-origin: bottom;
 
   z-index: 2;
 
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
-
 }
 
-.WallDown{
-
+.WallDown {
   width: 100%;
-  height: 70px;
+  height: 9.11vh; 
   position: absolute;
   top: 0;
   left: 0;
 
-  background: linear-gradient(to bottom, #ccc, #666);
+  background: linear-gradient(to top, #e0e0e0, #888888, #444444); 
 
-  transform: rotateX(-10deg) translateZ(1920px) translateX(1px);
+  transform: rotateX(-10deg) translateY(10.42vh) translateZ(263vh) translateX(0.0vw); 
   transform-origin: bottom;
 
   z-index: 2;
-
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
 
 }
 
-.WallRight{
-
-  width: 100%;
-  height: 70px;
+.WallRight {
+  width: 37vw;
+  height: 9.11vh;
   position: absolute;  
+  top: 0;
+  right: 0;
 
-  top:0;
-  right:0;
+  background: linear-gradient(to top, #d9d9d9, #999999, #555555); 
 
-  background: linear-gradient(to bottom, #ccc, #666);
-
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(-132px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.4vw) translateZ(270vh) translateY(-37vh);
   transform-origin: bottom;
 
   z-index: 2;
-
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
 
 }
 
-.WallLeft{
-
-  width: 100%;
-  height: 70px;
+.WallLeft {
+  width: 37vw;
+  height: 9.11vh;
   position: absolute;  
+  top: 0;
+  right: 0;
 
-  top:0;
-  right:0;
+  background: linear-gradient(to top, #d9d9d9, #999999, #555555); 
 
-  background: linear-gradient(to bottom, #ccc, #666);
-
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(130px) translateZ(50px) translateY(202px);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(90deg) translateX(9.4vw) translateZ(270vh) translateY(33.2vh); 
   transform-origin: bottom;
 
   z-index: 2;
-
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.25),
-    inset 5px 0 10px rgba(0, 0, 0, 0.15);
 
 }
 
@@ -216,13 +333,13 @@ body {
   box-sizing: border-box;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 
-  border: 2px solid #000000;
   flex-shrink: 0;
   background: transparent;  
 
+  margin-top: 100px;
   transform-style: preserve-3d;
   transition: transform 0.5s ease;
 }  
@@ -236,16 +353,191 @@ body {
 .Room_Visited .Floor7,
 .Room_Visited .Floor8,
 .Room_Visited .Floor9,
-.Room_Visited .Floor10{
+.Room_Visited .Floor10,
+.Room_Visited .StartingRoomFloor{
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-direction: column;
   position: relative;
 
   height: 100%;
   width: 100%;
   transform-style: preserve-3d;
+
+}
+
+.JustToCenterHelpWindow, .JustToCenterWinnerWindow{
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 9999;
+
+
+}
+
+.HelpWindow, .WinnerWindow, .LoserWindow {
+
+  height: 64vh;
+  width: 77.77vh;
+
+  background: radial-gradient(circle at top left, #f8f4e3, #d2b48c);
+  border: 4px solid #5c3d2e;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+
+}
+
+.WinnerWindow{
+
+  width: 70vh;
+  height: 21vh;
+
+}
+
+.LoserWindow{
+
+  width: 70vh;
+  height: 25vh;
+
+}
+
+.HelpHeading, .WinnerHeading{
+
+  font-size:1.7rem;
+  color: #a67c00;
+  text-shadow: 1px 1px 2px rgba(80, 60, 0, 0.3);
+
+  margin-top: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.WinnerHeading{
+
+  margin-top: 1vh;
+
+}
+
+.HelpText, .WinnerText{
+
+  text-align: center;
+  font-family: 'Georgia', serif;
+  color: #735c00;
+  font-size: 1.1rem;
+  line-height: 2;
+  margin-top: 6vh;
+}
+
+.WinnerText{
+
+  margin-top: 0vh;
+
+}
+
+.HelpCancelButtonWrapper, .WinnerCancelButtonWrapper{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.HelpCancelButton, .WinnerCancelButton, .WinnerPlayAgainButton, .LoserPlayAgainButton {
+
+  font-family: 'Georgia', serif;
+  background-color: #a08453; 
+  color: #f8f4e3; 
+
+  border: 2px solid #a67c00;
+  padding: 0.6em 1.4em;
+
+  font-size: 1rem;
+  border-radius: 6px;
+  
+  cursor: pointer;
+  margin-top: 0.5vh;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, transform 0.2s ease;
+
+}
+
+.LoserPlayAgainButton{
+
+  margin-top: -0.5vh;
+
+}
+
+
+.HelpCancelButton:hover {
+  background-color: #7a5e34;
+  transform: scale(1.04);
+}
+
+.HelpButton, .Timerdiv {
+
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw;
+
+  z-index: 10000;
+
+  background-color: #cf9d46; 
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+
+  padding: 0.6em 1.2em;
+  border: 2px solid #5c3d2e; 
+  border-radius: 8px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+}
+
+.HelpCancelButton:hover {
+  background-color: #7a5e34;
+  transform: scale(1.04);
+}
+ 
+
+.Timerdiv{
+
+  top: 2vh;
+  right: 2vw;
+  position: fixed;
+
+  border: 2px solid #5c3d2e; 
+  background-color: rgb(190, 157, 99); 
+  
+  height: 4vh;
+  width: 6vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.Timer{
+
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
 
 }

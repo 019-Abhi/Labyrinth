@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './Game.css'
 import confetti from 'canvas-confetti';
-import StartingRoomStuff from './assets/Decor.png';
+
 function Play() {
 
   //Initial position
@@ -21,73 +21,119 @@ function Play() {
     }
 
     else{
-      TreasureCol = Math.random() < 0.5 ? 0 : 8
+      TreasureCol = Math.random() < 0.5 ? 0 : 8;
     }
 
+    console.log('Treasure room: ' + TreasureRow +','+ TreasureCol )
     return {TreasureRow, TreasureCol}
+    
   };
 
   const [TreasureRoom] = useState(() => TreasureRowColGenerator());
 
-  console.log(TreasureRoom)
+  console.log (TreasureRoom)
 
   //Decalaration statements
   const [CurrentPosition, setCurrentPosition] = useState(InitialPosition);
   const [VisitedRooms, setVisitedRooms] = useState(new Set([`${InitialPosition.Row}-${InitialPosition.Col}`]));
   const [Floors, setFloors] = useState({});
-  const [Doors, setDoors] = useState({})
-  const [Popup, setPopup] = useState(false);
+  const [Doors, setDoors] = useState({});
+  const [HowToPlayPopup, setHowToPlayPopup] = useState(false);
+  const [WinnerPopup, setWinnerPopup] = useState(false);
+  const [LoserPopup, setLoserPopup] = useState(false)
+  const [ValueForUseEffect, setValueForUseEffect] = useState(1);
+  const [Seconds, setSeconds] = useState(30);
+  const intervalRef = useRef(null);
+  const [AllowMovement, setAllowMovement] = useState(true);
 
   const CharacterEmoji = '🐶';
   const rows = 9;
-  const cols = 9;
+  const cols = 9; 
 
   const gridRef = useRef(null);
 
-  function GeneratePathToTreausreRoom(InitialRow, InitialCol,){
+  function GeneratePathToTreasureRoom(InitialRow, InitialCol, TreasureRow, TreasureCol) {
 
-    let CurrentRow = InitialRow;
-    let CurrentCol = InitialCol;
+    let currentRow = InitialRow;
+    let currentCol = InitialCol;
 
-    while (CurrentRow !== TreasureRoom.TreasureRow || CurrentCol !== TreasureRoom.TreasureCol){
+    // Object to hold door states along the treasure path
+    const pathDoors = {};
 
-      const key = `${CurrentRow}-${CurrentCol}`;
-      let allowedDirections = ['Up', 'Down', 'Left', 'Right'];
+    while (currentRow !== TreasureRow || currentCol !== TreasureCol) {
 
-      if (CurrentRow === 0) allowedDirections = allowedDirections.filter(d => d !== 'Up');
-      if (CurrentRow === 8) allowedDirections = allowedDirections.filter(d => d !== 'Down');
-      if (CurrentCol === 0) allowedDirections = allowedDirections.filter(d => d !== 'Left');
-      if (CurrentCol === 8) allowedDirections = allowedDirections.filter(d => d !== 'Right');
+      const currentKey = `${currentRow}-${currentCol}`;
 
-      let randomDirecion = allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+      let direction;
+      let nextRow = currentRow;
+      let nextCol = currentCol;
 
-      if (randomDirecion === 'Up') CurrentRow--;
-      if (randomDirecion === 'Down') CurrentRow++;
-      if (randomDirecion === 'Left') CurrentCol--;
-      if (randomDirecion === 'Right') CurrentCol++;
+      // Decide direction to move closer to treasure
+      if (currentRow !== TreasureRow) {
 
-      setDoors(prev => {
-        const key = `${CurrentRow}-${CurrentCol}`;
-        if (prev[key]) return prev;
+        direction = currentRow < TreasureRow ? 'Down' : 'Up';
+        nextRow = currentRow < TreasureRow ? currentRow + 1 : currentRow - 1;
+      
+      } 
+      
+      else {
 
-        const newDoors = DoorSelector(randomDirecion, CurrentRow, CurrentCol, prev);
-        const updated = { ...prev, [key]: newDoors };
+        direction = currentCol < TreasureCol ? 'Right' : 'Left';
+        nextCol = currentCol < TreasureCol ? currentCol + 1 : currentCol - 1;
+      
+      }
 
-        const updateNeighbor = (neighborKey, oppositeDirection) => {
-          if (updated[neighborKey]) {
-            updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
-          }
-        };
+      const nextKey = `${nextRow}-${nextCol}`;
 
-        if (newDoors.UpDoor) updateNeighbor(`${CurrentRow - 1}-${CurrentCol}`, 'DownDoor');
-        if (newDoors.DownDoor) updateNeighbor(`${CurrentRow + 1}-${CurrentCol}`, 'UpDoor');
-        if (newDoors.LeftDoor) updateNeighbor(`${CurrentRow}-${CurrentCol - 1}`, 'RightDoor');
-        if (newDoors.RightDoor) updateNeighbor(`${CurrentRow}-${CurrentCol + 1}`, 'LeftDoor');
+      // Initialize doors for current and next rooms if not already set
+      if (!pathDoors[currentKey]) {
 
-        return updated;
-      });
+        pathDoors[currentKey] = { UpDoor: (Math.random() < 0.5), DownDoor: (Math.random() < 0.5), LeftDoor: (Math.random() < 0.5), RightDoor: (Math.random() < 0.5) };
+      
+      }
+
+      if (!pathDoors[nextKey]) {
+
+        pathDoors[nextKey] = { UpDoor: (Math.random() < 0.5), DownDoor: (Math.random() < 0.5), LeftDoor: (Math.random() < 0.5), RightDoor: (Math.random() < 0.5) };
+      
+      }
+
+      // Open doors between current room and next room based on direction
+      if (direction === 'Up') {
+
+        pathDoors[currentKey].UpDoor = true;
+        pathDoors[nextKey].DownDoor = true;
+
+      } 
+      
+      else if (direction === 'Down') {
+
+        pathDoors[currentKey].DownDoor = true;
+        pathDoors[nextKey].UpDoor = true;
+      
+      } 
+      
+      else if (direction === 'Left') {
+
+        pathDoors[currentKey].LeftDoor = true;
+        pathDoors[nextKey].RightDoor = true;
+      
+      } 
+      
+      else if (direction === 'Right') {
+
+        pathDoors[currentKey].RightDoor = true;
+        pathDoors[nextKey].LeftDoor = true;
+      
+      }
+
+      // Move to next room
+      currentRow = nextRow;
+      currentCol = nextCol;
+
     }
 
+    return pathDoors;
   }
 
 
@@ -105,15 +151,15 @@ function Play() {
 
     const doors = {
 
-      // UpDoor: Math.random() < 0.5,
-      // DownDoor: Math.random() < 0.5,
-      // LeftDoor: Math.random() < 0.5,
-      // RightDoor: Math.random() < 0.5
+      UpDoor: Math.random() < 0.5,
+      DownDoor: Math.random() < 0.5, 
+      LeftDoor: Math.random() < 0.5,
+      RightDoor: Math.random() < 0.5
 
-      UpDoor: false,
-      DownDoor: false,
-      LeftDoor: false,
-      RightDoor: false   
+      // UpDoor: false,
+      // DownDoor: false,
+      // LeftDoor: false,
+      // RightDoor: false   
 
     }
 
@@ -175,9 +221,32 @@ function Play() {
   }
 
   //Useeffect to run the path generator function
-  useEffect(() => {
-    GeneratePathToTreausreRoom(InitialPosition.Row, InitialPosition.Col);
-  }, []);
+  useEffect (() => {
+
+    const pathDoors = GeneratePathToTreasureRoom ( InitialPosition.Row,InitialPosition.Col,TreasureRoom.TreasureRow,TreasureRoom.TreasureCol );
+
+    // Merge with current doors, preserving any existing doors (e.g., starting room's all doors)
+    setDoors(prevDoors => {
+      const merged = { ...prevDoors };
+
+      for (const key in pathDoors) {
+        if (!merged[key]) {
+          merged[key] = pathDoors[key];
+        } else {
+          // Merge door booleans with OR logic
+          merged[key] = {
+            UpDoor: merged[key].UpDoor || pathDoors[key].UpDoor,
+            DownDoor: merged[key].DownDoor || pathDoors[key].DownDoor,
+            LeftDoor: merged[key].LeftDoor || pathDoors[key].LeftDoor,
+            RightDoor: merged[key].RightDoor || pathDoors[key].RightDoor,
+          };
+        }
+      }
+
+      return merged;
+    });
+  }, [ValueForUseEffect]);
+
 
   //useeffect for the starting room to have doors and floor 
   useEffect(() => {
@@ -195,144 +264,147 @@ function Play() {
 
     const StartingRoomFloor = 'StartingRoomFloor'
 
-    setFloors({ [key]: StartingRoomFloor });
+    setFloors({ [key]: 'Floor9' });
     setDoors({ [key]: DoorsforStartingRoom });
 
   }, []);
 
 
-
   //To check which arrow key is pressed; updates CurrentPosition and VisitedRooms
   useEffect(() => {
-    function handleKeyDown(event) {
-      let newRow = CurrentPosition.Row;
-      let newCol = CurrentPosition.Col;
-      let handled = false;
-      let FixedDoorinNewRoom = null;
+
+      function handleKeyDown(event) {
+        let newRow = CurrentPosition.Row;
+        let newCol = CurrentPosition.Col;
+        let handled = false;
+        let FixedDoorinNewRoom = null;
 
 
-      switch (event.key) {
+        if (AllowMovement === true){
 
-        case 'ArrowUp':
+          switch (event.key) {
 
-          if (Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. UpDoor){
+            case 'ArrowUp':
 
-            newRow = Math.max(0, CurrentPosition.Row - 1);
-            FixedDoorinNewRoom = 'Down';
-            handled = true;
+              if (Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. UpDoor){
+
+                newRow = Math.max(0, CurrentPosition.Row - 1);
+                FixedDoorinNewRoom = 'Down';
+                handled = true;
+
+              }
+
+              break;
+
+            case 'ArrowDown':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. DownDoor){
+
+                newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
+                FixedDoorinNewRoom = 'Up';
+                handled = true;
+
+              }
+
+              break;
+
+            case 'ArrowLeft':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. LeftDoor){
+
+                newCol = Math.max(0, CurrentPosition.Col - 1);
+                handled = true;
+                FixedDoorinNewRoom = 'Right';
+
+              }
+
+              break;
+
+            case 'ArrowRight':
+
+              if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. RightDoor){
+
+                newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
+                FixedDoorinNewRoom = 'Left';
+                handled = true;
+
+              }
+
+              break;
+
+            default:
+              return;
 
           }
+        }
 
-          break;
+        //Updates CurrentPosition and VisitedRooms
+        const newPosition = { Row: newRow, Col: newCol };
+        setCurrentPosition(newPosition);
+        setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
 
-        case 'ArrowDown':
 
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. DownDoor){
 
-            newRow = Math.min(rows - 1, CurrentPosition.Row + 1);
-            FixedDoorinNewRoom = 'Up';
-            handled = true;
+        //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
+        setFloors(prev => {
 
+          const key = `${newRow}-${newCol}`;
+
+          if (prev[key]) {
+            return prev;
+          };
+
+          return {
+            ...prev,
+            [key]: FloorSelector()
+          };
+
+        });
+
+        //To assign new doors for new rooms and keep old door patterns for visited rooms
+        setDoors(prev => {
+          
+          const key = `${newRow}-${newCol}`;
+
+          if (prev[key]) return prev;
+
+          const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
+          const updated = { ...prev, [key]: newDoors };
+
+          const updateNeighbor = (neighborKey, oppositeDirection) => {
+
+            if (updated[neighborKey]) {
+
+              updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
+
+            }
+          };
+
+          if (newDoors.UpDoor) {
+            updateNeighbor(`${newRow - 1}-${newCol}`, 'DownDoor');
           }
 
-          break;
-
-        case 'ArrowLeft':
-
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. LeftDoor){
-
-            newCol = Math.max(0, CurrentPosition.Col - 1);
-            handled = true;
-            FixedDoorinNewRoom = 'Right';
-
+          if (newDoors.DownDoor) {
+            updateNeighbor(`${newRow + 1}-${newCol}`, 'UpDoor');
           }
 
-          break;
-
-        case 'ArrowRight':
-
-          if(Doors[`${CurrentPosition.Row}-${CurrentPosition.Col}`]?. RightDoor){
-
-            newCol = Math.min(cols - 1, CurrentPosition.Col + 1);
-            FixedDoorinNewRoom = 'Left';
-            handled = true;
-
+          if (newDoors.LeftDoor) {
+            updateNeighbor(`${newRow}-${newCol - 1}`, 'RightDoor');
           }
 
-          break;
+          if (newDoors.RightDoor) {
+            updateNeighbor(`${newRow}-${newCol + 1}`, 'LeftDoor');
+          }
 
-        default:
-          return;
+          return updated;
+        });
 
+
+        //Prevents scrolling when arrow keys are pressed
+        if (handled) {
+          event.preventDefault();
+        }
       }
-
-      //Updates CurrentPosition and VisitedRooms
-      const newPosition = { Row: newRow, Col: newCol };
-      setCurrentPosition(newPosition);
-      setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
-
-
-
-      //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
-      setFloors(prev => {
-
-        const key = `${newRow}-${newCol}`;
-
-        if (prev[key]) {
-          return prev;
-        };
-
-        return {
-          ...prev,
-          [key]: FloorSelector()
-        };
-
-      });
-
-      //To assign new doors for new rooms and keep old door patterns for visited rooms
-      setDoors(prev => {
-        
-        const key = `${newRow}-${newCol}`;
-
-        if (prev[key]) return prev;
-
-        const newDoors = DoorSelector(FixedDoorinNewRoom, newRow, newCol, prev);
-        const updated = { ...prev, [key]: newDoors };
-
-        const updateNeighbor = (neighborKey, oppositeDirection) => {
-
-          if (updated[neighborKey]) {
-
-            updated[neighborKey] = { ...updated[neighborKey], [oppositeDirection]: true };
-
-          }
-        };
-
-        if (newDoors.UpDoor) {
-          updateNeighbor(`${newRow - 1}-${newCol}`, 'DownDoor');
-        }
-
-        if (newDoors.DownDoor) {
-          updateNeighbor(`${newRow + 1}-${newCol}`, 'UpDoor');
-        }
-
-        if (newDoors.LeftDoor) {
-          updateNeighbor(`${newRow}-${newCol - 1}`, 'RightDoor');
-        }
-
-        if (newDoors.RightDoor) {
-          updateNeighbor(`${newRow}-${newCol + 1}`, 'LeftDoor');
-        }
-
-        return updated;
-      });
-
-
-      //Prevents scrolling when arrow keys are pressed
-      if (handled) {
-        event.preventDefault();
-      }
-    }
 
     //Cleans up the keydown listener after use, saves memory (I think)
     document.addEventListener('keydown', handleKeyDown);
@@ -341,7 +413,6 @@ function Play() {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [CurrentPosition, rows, cols, setCurrentPosition, setVisitedRooms]);
-
 
   //To scroll new room into view
   useEffect(() => {
@@ -361,16 +432,64 @@ function Play() {
 
   }, [CurrentPosition])
 
+  //Confetti popup
   useEffect(() => {
     if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol) {
+
+      setWinnerPopup(true);
+
       confetti({
-        particleCount: 800,
-        spread: 300,
+        particleCount: 1000,
+        spread: 800,
         origin: { y: 0.6 }
       });
     }
   }, [CurrentPosition]);
 
+  //For the path generator use effect to work this has to run atleast onc
+    useEffect(() => {
+      if (ValueForUseEffect <= 1) {
+        setValueForUseEffect(prev => prev + 1);
+      }
+    }, [ValueForUseEffect]);
+
+
+  //Timer UseEffect
+  useEffect(() => {
+
+    intervalRef.current = setInterval(() => {
+
+      setSeconds(prevSeconds => { 
+
+        if (prevSeconds === 1) {
+
+          clearInterval(intervalRef.current);
+          setAllowMovement(false);
+          setLoserPopup(true);
+          return 0; 
+          
+        }
+
+        return prevSeconds - 1; 
+
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  //useEffect for stopping timer when player wins
+  useEffect(() =>{
+
+    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol){
+
+      clearInterval(intervalRef.current);
+      
+    }
+
+  }, [CurrentPosition])
+
+  
 
   //HTML beings *applause*
   return (
@@ -380,9 +499,19 @@ function Play() {
 
       <div className = 'HelpButtonWrapper'>
         
-        <button className = 'HelpButton' onClick = {() => setPopup(true)}>
+        <button className = 'HelpButton' onClick = {() => setHowToPlayPopup(true)}>
           How To Play
         </button>
+
+      </div>
+
+      <div className = 'Timerdiv'>
+
+        <div className = 'Timer'>
+          <center>
+            <p> {Seconds}</p>
+          </center>
+        </div>
 
       </div>
 
@@ -390,7 +519,7 @@ function Play() {
       <div className="Outer_Box_Flex" ref={gridRef}>
 
         {/* Help button div */}
-        {Popup && (
+        {HowToPlayPopup && (
           <div className = 'JustToCenterHelpWindow'>
             <div className = 'HelpWindow'>
 
@@ -410,7 +539,7 @@ function Play() {
               </p>
 
               <div className = 'HelpCancelButtonWrapper'>
-                <button className = 'HelpCancelButton' onClick = {() => setPopup(false)}>
+                <button className = 'HelpCancelButton' onClick = {() => setHowToPlayPopup(false)}>
                   Close
                 </button>
               </div>
@@ -418,6 +547,67 @@ function Play() {
             </div>
           </div>
         )}
+
+        {/* After Win Popup */}
+        {WinnerPopup && (
+          <div className = 'JustToCenterWinnerWindow'>
+            <div className = 'WinnerWindow'>
+
+              <h1 className = 'WinnerHeading'>⚜️ Congratulations! ⚜️</h1>
+
+              <p className = 'WinnerText'>
+
+                You've found your way out of The Hidden Labyrinth
+
+              </p>
+
+              <div className = 'WinnerCancelButtonWrapper'>
+
+                <button className = 'WinnerCancelButton' onClick = {() => setWinnerPopup(false)}>
+                  Close
+                </button>
+
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+
+                <button className = 'WinnerPlayAgainButton' onClick = {() => window.location.reload()}>
+                  Play Again
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* Loser Popup */}
+        {LoserPopup && (
+
+          <div className = 'JustToCenterWinnerWindow'>
+            <div className = 'LoserWindow'>
+
+              <h1 className = 'WinnerHeading'>⚜️ Your Path Ends Here ⚜️</h1>
+
+              <p className = 'WinnerText'>
+
+                 The sands of time have run dry, <br />
+                the Labyrinth has claimed another wanderer
+
+              </p>
+          
+              <div className = 'WinnerCancelButtonWrapper'>
+                
+                <button className = 'LoserPlayAgainButton' onClick = {() => window.location.reload()}>
+                  Play Again
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+          
+        )}
+
+
 
 
         {/* Grid and printing rooms */}
@@ -439,13 +629,6 @@ function Play() {
 
                       {/* Loads walls and conditionally doors :) */}
                       <div className = {Floors[key]}>
-
-                        {CurrentPosition.Row == InitialPosition.Row && CurrentPosition.Col == InitialPosition.Col ? (
-                          <div className = 'StartingRoomElements'>
-                            <img src = {StartingRoomStuff} alt = 'pole and stuff' />
-                          </div>
-
-                        ) : null}
 
                         {row !== 0 && Doors[key]?.UpDoor && <div className= "DoorUp" />}
                         {row !== 8 && Doors[key]?.DownDoor && <div className= "DoorDown" />}

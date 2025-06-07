@@ -1,0 +1,113 @@
+#root {
+  max-width: 1280px;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+
+  background: linear-gradient(to bottom, #43577c, #1B263B);
+  margin: 0;
+  padding: 0;
+  height: 99vh;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0vw;
+  min-height: 0vh;
+}
+
+body,
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.IntroBox,
+.Heading {
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  
+  width: 100%;
+  height: 100%;
+
+  margin-top: 40vh;
+
+}
+
+.IntroBox{
+
+    margin-top: -20vh;
+
+}
+
+.IntroBox .Heading {
+  height: 10vh;
+  color: #8bafbe;
+}
+
+.IntroBox .IntroText {
+
+  color: #b0bec5;
+  font-size: 3.5vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bolder;
+  font-size: x-large;
+
+}
+
+.IntroText{
+
+  line-height: 2;
+
+}
+
+.ButtonRow{ 
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 8vh;
+  gap: 8vw;
+
+}
+
+.PlayMagikallyButton{
+
+  width: 20%;
+  height: 8vh;
+
+}
+
+
+.PlayButton{
+
+    width: 15%;
+    height: 8vh;
+
+}
+
+.PlayButton, .PlayMagikallyButton {
+
+  background-color: #3d6269;
+  color: #f3f0ff ;
+  border: none;
+  border-radius: 10rem;
+  transition: background-color 0.3s;
+
+  font-size: 3vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bolder;
+
+}
+
+.PlayButton:hover, .PlayMagikallyButton:hover {
+
+  background-color: #0077b6;
+
+}
