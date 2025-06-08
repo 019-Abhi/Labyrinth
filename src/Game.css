@@ -561,10 +561,10 @@ body {
 }
 
 .AudioDiv:focus,
-Audio:active {
+.Audio:active {
   outline: none;
-  border: none;
-  background-color: rebeccapurple;
+  border: transparent;
+  background-color: #c58f42;
 }
 
 .Audio{
@@ -593,7 +593,7 @@ Audio:active {
 
 .VolumeOffIcon{
 
-  margin-top: -9vh;
+  top: -1vh;
   margin-left: -1.5vh;
   
 }
@@ -608,3 +608,8 @@ Audio:active {
 .VolumeOffIcon{
   font-size: 1.5rem;
 }
+
+
+
+
+

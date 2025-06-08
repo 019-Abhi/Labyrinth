@@ -48,6 +48,7 @@ function Play() {
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
   const [Muted, setMuted] = useState(false);
+  const AudioRef = useRef(new Audio('/bgmusic.mp3'))
 
   const CharacterEmoji = '🐶';
   const rows = 9;
@@ -492,6 +493,19 @@ function Play() {
 
   }, [CurrentPosition])
 
+
+  //useEffect for bg music
+  useEffect(() => {
+
+    const Audio = AudioRef.current;
+    Audio.loop = true;
+
+    if (Muted === false)
+      Audio.play().catch(e => console.warn('Autoplay blocked: ', e));
+    else  
+      Audio.pause();
+
+  }, [Muted]);
   
 
   //HTML beings *applause*
@@ -528,7 +542,6 @@ function Play() {
 
 
       <div className="Outer_Box_Flex" ref={gridRef}>
-
         {/* Help button div */}
         {HowToPlayPopup && (
           <div className = 'JustToCenterHelpWindow'>
