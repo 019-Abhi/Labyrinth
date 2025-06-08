@@ -8,22 +8,22 @@ function Play() {
 
   //Initial position
   const InitialPosition = {
-    "Row": 4,
-    "Col": 4
+    "Row": 5,
+    "Col": 5
   }; 
 
   //Creates a random treasure room
   function TreasureRowColGenerator() {
 
-    const TreasureRow = Math.floor(Math.random() * 9);
+    const TreasureRow = Math.floor(Math.random() * 11);
     let TreasureCol;
 
-    if ( TreasureRow == 0 || TreasureRow == 8){
-      TreasureCol = Math.floor(Math.random() * 9);
+    if ( TreasureRow == 0 || TreasureRow == 10){
+      TreasureCol = Math.floor(Math.random() * 11);
     }
 
     else{
-      TreasureCol = Math.random() < 0.5 ? 0 : 8;
+      TreasureCol = Math.random() < 0.5 ? 0 : 10;
     }
 
     console.log('Treasure room: ' + TreasureRow +','+ TreasureCol )
@@ -51,8 +51,8 @@ function Play() {
   const AudioRef = useRef(new Audio('/bgmusic.mp3'))
 
   const CharacterEmoji = '🐶';
-  const rows = 9;
-  const cols = 9; 
+  const rows = 11;
+  const cols = 11; 
 
   const gridRef = useRef(null);
 
@@ -160,10 +160,10 @@ function Play() {
       LeftDoor: Math.random() < 0.5,
       RightDoor: Math.random() < 0.5
 
-      // UpDoor: false,
-      // DownDoor: false,
-      // LeftDoor: false,
-      // RightDoor: false   
+      // UpDoor: true,
+      // DownDoor: true,
+      // LeftDoor: true,
+      // RightDoor: true   
 
     }
 
@@ -485,11 +485,8 @@ function Play() {
   //useEffect for stopping timer when player wins
   useEffect(() =>{
 
-    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol){
-
+    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol)
       clearInterval(intervalRef.current);
-      
-    }
 
   }, [CurrentPosition])
 
@@ -655,9 +652,9 @@ function Play() {
                       <div className = {Floors[key]}>
 
                         {row !== 0 && Doors[key]?.UpDoor && <div className= "DoorUp" />}
-                        {row !== 8 && Doors[key]?.DownDoor && <div className= "DoorDown" />}
+                        {row !== 10 && Doors[key]?.DownDoor && <div className= "DoorDown" />}
                         {col !== 0 && Doors[key]?.LeftDoor && <div className= "DoorLeft" />}
-                        {col !== 8 && Doors[key]?.RightDoor && <div className= "DoorRight" />}
+                        {col !== 10 && Doors[key]?.RightDoor && <div className= "DoorRight" />}
 
                         <div className = 'WallUp' />
                         <div className = 'WallDown' />

@@ -37,8 +37,8 @@ body {
 .Outer_Box_Grid {
   
   display: grid;
-  grid-template-columns: repeat(9, 35vw); 
-  grid-template-rows: repeat(9, 65vh);
+  grid-template-columns: repeat(11, 35vw); 
+  grid-template-rows: repeat(11, 65vh);
 
   overflow-x: scroll;
   overflow-y: scroll;
