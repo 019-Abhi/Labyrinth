@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import './Game.css'
+import './Game.css';
 import confetti from 'canvas-confetti';
-import { FaVolumeXmark } from "react-icons/fa6";
+import { FaVolumeXmark, FaZ } from "react-icons/fa6";
 import { IoVolumeMediumSharp } from "react-icons/io5";
+import BgMusic from '/bgmusic.mp3';
 
 function Play() {
 
@@ -10,9 +11,9 @@ function Play() {
   const InitialPosition = {
     "Row": 5,
     "Col": 5
-  }; 
+  };
 
-  //Creates a random treasure room
+  //Creates a random treasure room qazswxedcrfvjmiweazwsedr qazwsxedrftgbyhnujiloppo wsertybunjiklopolytrswzaa aezwsxwqcdvtfbyinhwz asxrtfgnoijnopljfxwzq awsedcrftaqzwsedrfgawsexdr rfvbgyunhiwsedrfswxe qazwsxertbynmikwsxe lppolkmnjuhgfrrdeeszaq zawsedrftgbyhnujmilplpk azqswxedcrfvtgbyhunjimkol azwsxfsedrftgyhnujiopolkmmnhfd xszaqazwsedrcfvtbyumkimlop qazwsexrfvtgyhujilppolanh zaqsxwdevfrbtgjuplokever ijmuhnydcexaqzswcrtkilop
   function TreasureRowColGenerator() {
 
     const TreasureRow = Math.floor(Math.random() * 11);
@@ -48,7 +49,7 @@ function Play() {
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
   const [Muted, setMuted] = useState(false);
-  const AudioRef = useRef(new Audio('/bgmusic.mp3'))
+  const AudioRef = useRef(new Audio(BgMusic))
 
   const CharacterEmoji = '🐶';
   const rows = 11;

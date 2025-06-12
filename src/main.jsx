@@ -5,11 +5,15 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Home from './Home.jsx';
 import Game from './Game.jsx';
+import Login from './Login.jsx'; 
 
 const router = createBrowserRouter([
 
-  {path: '/', element: <Home />},
+  {path: '/home', element: <Home />},
   {path: '/game', element: <Game />},
+  {path: '/login', element: <Login />},
+  {path: '/', element: <Login />}
+
 
 ]);
 
