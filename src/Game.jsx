@@ -12,7 +12,7 @@ function Play() {
     "Row": 5,
     "Col": 5
   };
-
+  
   //Creates a random treasure room qazswxedcrfvjmiweazwsedr qazwsxedrftgbyhnujiloppo wsertybunjiklopolytrswzaa aezwsxwqcdvtfbyinhwz asxrtfgnoijnopljfxwzq awsedcrftaqzwsedrfgawsexdr rfvbgyunhiwsedrfswxe qazwsxertbynmikwsxe lppolkmnjuhgfrrdeeszaq zawsedrftgbyhnujmilplpk azqswxedcrfvtgbyhunjimkol azwsxfsedrftgyhnujiopolkmmnhfd xszaqazwsedrcfvtbyumkimlop qazwsexrfvtgyhujilppolanh zaqsxwdevfrbtgjuplokever ijmuhnydcexaqzswcrtkilop
   function TreasureRowColGenerator() {
 

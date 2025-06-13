@@ -6,13 +6,16 @@ import './index.css';
 import Home from './Home.jsx';
 import Game from './Game.jsx';
 import Login from './Login.jsx'; 
+import Createacc from './Createacc.jsx';
 
 const router = createBrowserRouter([
 
   {path: '/home', element: <Home />},
   {path: '/game', element: <Game />},
   {path: '/login', element: <Login />},
-  {path: '/', element: <Login />}
+  {path: '/createacc', element: <Createacc />},
+  {path: '/', element: <Login />},
+
 
 
 ]);

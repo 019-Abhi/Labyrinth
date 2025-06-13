@@ -1,4 +1,7 @@
 import './Createacc.css';
+import Logo from '/Logo without bg.png';
+import { Link } from 'react-router-dom';
+
 
 function Createacc(){
 
@@ -6,23 +9,24 @@ function Createacc(){
 
         <div className = 'OuterBox'>
 
-            <div className = 'LoginBox'>
+            <div className = 'AccBox'>
 
 
-                <img src = {Logo} alt = 'Nop' className = 'ImageDiv'/>
+                <img src = {Logo} alt = 'Nop' className = 'ImageDivInCreateAcc'/>
 
-                <input type = 'text' placeholder = 'Username' name = 'Username' className = 'UsernameBox' />
-                <input type = 'password' placeholder = 'Password' name = 'Password' className = 'PasswordBox' />
-                <button name = 'LoginButton' className = 'LoginButton' >
-                    Login
+                <input type = 'text' placeholder = 'Enter New Username' name = 'Username' className = 'UsernameBoxInCreateAcc' />
+                <input type = 'password' placeholder = 'Enter New Password' name = 'Password' className = 'PasswordBoxInCreateAcc' />
+                <br />
+                <button name = 'LoginButtonInCreateAcc' className = 'LoginButton' >
+                    Sign Up!
                 </button>
             
 
             </div>
 
-            <div className = 'CreateAccountBox'>
+            <div className = 'CreateAccountBoxInCreateAcc'>
                 <p>
-                    DIngus!
+                    Go back to <Link to = '/login'> Login </Link> 
                 </p>
             </div>
 
@@ -32,4 +36,4 @@ function Createacc(){
 
 };
 
-export default CreateAcc;
+export default Createacc;
