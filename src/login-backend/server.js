@@ -22,6 +22,36 @@ app.post('/login', (req, res) => {
 
 });
 
+
+app.post('/createacc', (req, res) => {
+
+    const { newUsername, newPassword } = req.body;
+
+    db.get("SELECT * FROM users WHERE username = ?", [newUsername], (err, UsernameExists) => {
+
+        if (err){
+            console.error(err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (UsernameExists){
+            return res.status(409).json({ success: false, message: 'Username already taken' });      
+        }
+
+    });
+
+
+    db.run("INSERT INTO users VALUES (? , ?)", [newUsername, newPassword], (err) => {
+
+        if (err) return res.status(500).json({error: 'Database error'});
+        return res.json({ success: true, message: 'Sign Up Successful' });
+
+    });
+
+});
+
+
+
 app.listen(3001, () => {
     console.log('Server running on http://localhost:3001');
 });

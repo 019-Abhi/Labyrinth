@@ -1,39 +1,79 @@
-import './Createacc.css';
+import { useState, useRef, useEffect } from 'react';
+import './Login.css';
 import Logo from '/Logo without bg.png';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate,Link } from 'react-router-dom';
 
 
-function Createacc(){
+function Login() {
+
+    const [Username, setUsername] = useState('');
+    const [Password, setPassword] = useState('');
+    const userRef = useRef();
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+
+        e.preventDefault();
+
+        try {
+
+            const response = await axios.post('http://localhost:3001/createacc', {
+                newUsername: Username,
+                newPassword: Password
+            });
+
+            if (response.data.success){
+                navigate('/game', { replace: true }); 
+            }
+
+            else {
+                alert('login unsuccessful');
+            }
+
+        } catch (error) {
+            alert ('error for some reason');
+            console.error(error);
+        }
+    };  
+    
+    //useEffect to focus on username
+    useEffect(() => {
+        userRef.current.focus();
+    }, [])
 
     return(
 
         <div className = 'OuterBox'>
 
-            <div className = 'AccBox'>
+            <div className = 'LoginBox'>
 
+                <img src = {Logo} alt = 'Nop' className = 'ImageDiv'/>
 
-                <img src = {Logo} alt = 'Nop' className = 'ImageDivInCreateAcc'/>
+                <form name = 'formx' onSubmit = {handleSubmit}>
 
-                <input type = 'text' placeholder = 'Enter New Username' name = 'Username' className = 'UsernameBoxInCreateAcc' />
-                <input type = 'password' placeholder = 'Enter New Password' name = 'Password' className = 'PasswordBoxInCreateAcc' />
-                <br />
-                <button name = 'LoginButtonInCreateAcc' className = 'LoginButton' >
-                    Sign Up!
-                </button>
-            
+                    <input type = 'text' value = {Username} onChange = {(e) => setUsername(e.target.value)} placeholder = 'Username / Email Address' name = 'Username' ref = {userRef} className = 'UsernameBox' required autoComplete = 'off'/>
+                    <input type = 'password' value = {Password} onChange = {(e) => setPassword(e.target.value)} placeholder = 'Password' name = 'Password' className = 'PasswordBox' required/>
+                    <br />
+                    <button name = 'LoginButton' type = 'submit' className = 'LoginButton' >
+                        Sign Up! 
+                    </button>
+
+                </form>
 
             </div>
 
-            <div className = 'CreateAccountBoxInCreateAcc'>
+            <div className = 'CreateAccountBox'>
                 <p>
-                    Go back to <Link to = '/login'> Login </Link> 
+                    Back to <Link to = '/login'> Login </Link>
                 </p>
             </div>
 
-        </div>        
+        </div>
 
     );
 
 };
 
-export default Createacc;
+export default Login;
