@@ -22,7 +22,7 @@ function Home() {
     useEffect(() => {
 
         if (ShowLeaderboard) {
-            axios.get('https://labyrinth-production.up.railway.app/leaderboard')
+            axios.get('https://labyrinth-backend-try-2-production.up.railway.app/leaderboard')
             .then(res => {
                 if (res.data.success) setLeaderboard(res.data.data);
             })
