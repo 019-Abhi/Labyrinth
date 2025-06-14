@@ -75,7 +75,7 @@ app.post('/updatetime', (req, res) => {
 
 
 app.get('/leaderboard', (req, res) => {
-    db.all("SELECT username, time FROM users WHERE time > 0 ORDER BY time ASC LIMIT 7", (err, rows) => {
+    db.all("SELECT username, time FROM users WHERE time > 0 ORDER BY time DESC LIMIT 7", (err, rows) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Database error' });
