@@ -1,7 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import { useEffect } from 'react';
 
 function Home() {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth' });
+    }, [])
 
     const navigate = useNavigate();
 
@@ -16,7 +21,6 @@ function Home() {
                     <h1 className = 'Heading'>
                         Welcome to The Hidden Labyrinth
                     </h1>
-
 
                     <p className = 'IntroText'>
 

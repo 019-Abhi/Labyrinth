@@ -4,6 +4,8 @@ import confetti from 'canvas-confetti';
 import { FaVolumeXmark, FaZ } from "react-icons/fa6";
 import { IoVolumeMediumSharp } from "react-icons/io5";
 import BgMusic from '/bgmusic.mp3';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { IoHome } from "react-icons/io5";
 
 function Play() {
 
@@ -45,11 +47,16 @@ function Play() {
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(30);
+  const [Seconds, setSeconds] = useState(3000);
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
   const [Muted, setMuted] = useState(false);
-  const AudioRef = useRef(new Audio(BgMusic))
+  const AudioRef = useRef(new Audio(BgMusic));
+  const location = useLocation();
+  const username = location.state?.username || 'Guest';
+  const navigate = useNavigate();
+
+  console.log('logged in as: ', username);
 
   const CharacterEmoji = '🐶';
   const rows = 11;
@@ -528,6 +535,19 @@ function Play() {
           </center>
         </div>
 
+      </div>
+
+      <div className = 'Homediv'>
+        
+       <button className = 'HomeButton' onClick = {() => navigate('/home')}>
+          <IoHome />
+        </button>
+
+      </div>
+
+
+      <div className = 'Usernamediv'>
+        {username}
       </div>
 
       <div className = 'AudioDiv'>

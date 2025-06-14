@@ -10,6 +10,7 @@ function Login() {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
     const userRef = useRef();
+    const [errorMessage, seterrorMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -25,15 +26,15 @@ function Login() {
             });
 
             if (response.data.success){
-                navigate('/game', { replace: true }); 
+                navigate('/home', { replace: true, state: { username: Username } }); 
             }
 
             else {
-                alert('login unsuccessful');
+                seterrorMessage('Incorrect credentials');
             }
 
-        } catch (error) {
-            alert (response.data.message);
+        } catch (error) { 
+            seterrorMessage('Incorrect credentials');
             console.error(error);
         }
     };  
@@ -43,6 +44,11 @@ function Login() {
         userRef.current.focus();
     }, [])
 
+    //useEffect to scroll room to top after each render
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth' });
+    }, []) 
+
     return(
 
         <div className = 'OuterBox'>
@@ -50,6 +56,8 @@ function Login() {
             <div className = 'LoginBox'>
 
                 <img src = {Logo} alt = 'Nop' className = 'ImageDiv'/>
+
+                {errorMessage && <div className = "ErrorMessage"> {errorMessage} </div>}
 
                 <form name = 'formx' onSubmit = {handleSubmit}>
 
