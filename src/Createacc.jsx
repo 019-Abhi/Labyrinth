@@ -20,7 +20,7 @@ function Login() {
 
         try {
 
-            const response = await axios.post('http://localhost:3001/createacc', {
+            const response = await axios.post('https://labyrinth-production.up.railway.app//createacc', {
                 newUsername: Username,
                 newPassword: Password
             });

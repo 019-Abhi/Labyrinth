@@ -22,7 +22,7 @@ function Home() {
     useEffect(() => {
 
         if (ShowLeaderboard) {
-            axios.get('http://localhost:3001/leaderboard')
+            axios.get('https://labyrinth-production.up.railway.app//leaderboard')
             .then(res => {
                 if (res.data.success) setLeaderboard(res.data.data);
             })

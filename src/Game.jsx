@@ -497,7 +497,7 @@ function Play() {
     clearInterval(intervalRef.current);
 
     // sends time to server
-    axios.post('http://localhost:3001/updatetime', {
+    axios.post('https://labyrinth-production.up.railway.app//updatetime', {
       username: username,
       time: Seconds
     })
