@@ -32,7 +32,7 @@ function Home() {
 
                     <div className = 'ButtonRow'>
     
-                        <button onClick={() => navigate('/game')} className = 'PlayButton'>
+                        <button onClick={() => navigate('/login')} className = 'PlayButton'>
                             Play
                         </button> 
 

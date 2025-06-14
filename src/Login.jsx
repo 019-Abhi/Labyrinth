@@ -26,7 +26,7 @@ function Login() {
             });
 
             if (response.data.success){
-                navigate('/home', { replace: true, state: { username: Username } }); 
+                navigate('/game', { replace: true, state: { username: Username } }); 
             }
 
             else {
