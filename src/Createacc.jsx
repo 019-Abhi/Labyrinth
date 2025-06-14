@@ -35,11 +35,16 @@ function Login() {
             }
 
             else {
-                seterrorMessage('Incorrect credentials');
+                seterrorMessage(response.data.message);
             }
 
-        } catch (error) { 
-            seterrorMessage('Incorrect credentials');
+        } catch (error) {
+            
+            if (error.response && error.response.data && error.response.data.message) {
+                seterrorMessage(error.response.data.message);
+            } else {
+                seterrorMessage("Something went wrong :/");
+            }
             console.error(error);
         }
     };  

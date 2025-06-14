@@ -111,3 +111,107 @@ html::-webkit-scrollbar {
   background-color: #0077b6;
 
 }
+
+
+.LeaderboardButton {
+  position: fixed;
+  top: 4vh;
+  right: 4vw;
+
+  z-index: 10000;
+  height: 7vh;
+  padding: 0.1rem 1.5rem;
+
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  color: #f8f4e3;
+
+  border: 2px solid #5c3d2e;
+  border-radius: 8px;
+  background-color: #8e6b45;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+
+.LeaderboardButton:focus,
+.LeaderboardButton:active {
+  outline: none;
+}
+
+.LeaderboardPanel {
+
+  position: fixed; 
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%); 
+
+  height: 60vh;
+  width: 30vw;
+
+  background: radial-gradient(circle at top left, #9cb9c0, #586868);
+  border: 4px solid #5c3d2e;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+
+  z-index: 10000; 
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+
+.LeaderboardHeading{
+
+  font-size:1.7rem;
+  color: #0d3b50;
+  text-shadow: 1px 1px 2px rgba(80, 60, 0, 0.3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: -1vh;
+
+}
+
+.LeaderboardText{
+
+  font-size:1.7rem;
+  color: rgb(51, 54, 54);
+  text-shadow: 1px 1px 2px rgba(80, 60, 0, 0.3);
+
+}
+
+.LeaderboardCancelButton{
+
+  font-family: 'Georgia', serif;
+  background-color: #697475; 
+  color: #f8f4e3; 
+
+  border: 2px solid #64666d;
+  padding: 0.6em 1.4em;
+
+  font-size: 1rem;
+  border-radius: 6px;
+  
+  cursor: pointer;
+  margin-top: 0.5vh;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, transform 0.2s ease;
+
+}
+
+.LeaderboardCancelButton:active{
+  outline: none;
+}

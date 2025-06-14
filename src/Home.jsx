@@ -1,19 +1,75 @@
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Home() {
+
+
+    const navigate = useNavigate();
+    const [ShowLeaderboard, setShowLeaderboard] = useState('');
+    const [Leaderboard, setLeaderboard] = useState([]);
+    // const [LeaderboardList, setLeaderboardList] = useState([]);
+
+
 
     useEffect(() => {
         window.scrollTo({top: 0, behavior: 'smooth' });
     }, [])
 
-    const navigate = useNavigate();
+
+    //leaderboard useEffect
+    useEffect(() => {
+
+        if (ShowLeaderboard) {
+            axios.get('http://localhost:3001/leaderboard')
+            .then(res => {
+                if (res.data.success) setLeaderboard(res.data.data);
+            })
+            .catch(err => console.error(err));
+        }
+
+    }, [ShowLeaderboard]);
+
+
 
     return(
     
         <div className = 'EntireHome'>
         {/* Intro box to give an intro about the game */}
+
+
+            <div className="LeaderboardDiv">
+
+                <button className="LeaderboardButton" onClick={() => setShowLeaderboard(!ShowLeaderboard)}>
+                    Leaderboard 🏆
+                </button>
+
+            </div>
+
+    
+            {ShowLeaderboard && (
+
+                <div className="LeaderboardPanel">
+
+                    <h3 className = 'LeaderboardHeading'>Top 7 Players</h3>
+
+                    <div className=  'LeaderboardText' > {Leaderboard[0]?.username} - {Leaderboard[0]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[1]?.username} - {Leaderboard[1]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[2]?.username} - {Leaderboard[2]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[3]?.username} - {Leaderboard[3]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[4]?.username} - {Leaderboard[4]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[5]?.username} - {Leaderboard[5]?.time}s</div>
+                    <div className=  'LeaderboardText' > {Leaderboard[6]?.username} - {Leaderboard[6]?.time}s</div>
+
+                    <br />
+                    <button className="LeaderboardCancelButton" onClick={() => setShowLeaderboard(!ShowLeaderboard)}>
+                        Close
+                    </button>
+
+                </div>
+            )}
+
 
             <div className = 'IntroBox'>
                 

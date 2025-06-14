@@ -38,17 +38,52 @@ app.post('/createacc', (req, res) => {
             return res.status(409).json({ success: false, message: 'Username already taken' });      
         }
 
+        db.run("INSERT INTO users VALUES (? , ?, ?)", [newUsername, newPassword, 0], (err) => {
+
+            if (err) return res.status(500).json({error: 'Database error'});
+            return res.json({ success: true, message: 'Sign Up Successful' });
+
+        });
     });
-
-
-    db.run("INSERT INTO users VALUES (? , ?)", [newUsername, newPassword], (err) => {
-
-        if (err) return res.status(500).json({error: 'Database error'});
-        return res.json({ success: true, message: 'Sign Up Successful' });
-
-    });
-
 });
+
+
+app.post('/updatetime', (req, res) => {
+    const { username, time } = req.body;
+
+    db.get("SELECT time FROM users WHERE username = ?", [username], (err, row) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+
+        if (!row || row.time === null || time > row.time) {
+            db.run("UPDATE users SET time = ? WHERE username = ?", [time, username], (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ success: false, message: 'Update failed' });
+                }
+                return res.json({ success: true, message: 'Time updated' });
+            });
+        } else {
+            return res.json({ success: false, message: 'Time not better, no update' });
+        }
+    });
+});
+
+
+
+
+app.get('/leaderboard', (req, res) => {
+    db.all("SELECT username, time FROM users WHERE time > 0 ORDER BY time ASC LIMIT 7", (err, rows) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        res.json({ success: true, data: rows });
+    });
+});
+
 
 
 

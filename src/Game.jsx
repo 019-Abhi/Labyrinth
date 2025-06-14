@@ -6,6 +6,7 @@ import { IoVolumeMediumSharp } from "react-icons/io5";
 import BgMusic from '/bgmusic.mp3';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoHome } from "react-icons/io5";
+import axios from 'axios';
 
 function Play() {
 
@@ -47,7 +48,7 @@ function Play() {
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(3000);
+  const [Seconds, setSeconds] = useState(30);
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);
   const [Muted, setMuted] = useState(false);
@@ -55,8 +56,6 @@ function Play() {
   const location = useLocation();
   const username = location.state?.username || 'Guest';
   const navigate = useNavigate();
-
-  console.log('logged in as: ', username);
 
   const CharacterEmoji = '🐶';
   const rows = 11;
@@ -163,15 +162,15 @@ function Play() {
 
     const doors = {
 
-      UpDoor: Math.random() < 0.5,
-      DownDoor: Math.random() < 0.5, 
-      LeftDoor: Math.random() < 0.5,
-      RightDoor: Math.random() < 0.5
+      // UpDoor: Math.random() < 0.5,
+      // DownDoor: Math.random() < 0.5, 
+      // LeftDoor: Math.random() < 0.5,
+      // RightDoor: Math.random() < 0.5
 
-      // UpDoor: true,
-      // DownDoor: true,
-      // LeftDoor: true,
-      // RightDoor: true   
+      UpDoor: true,
+      DownDoor: true,
+      LeftDoor: true,
+      RightDoor: true   
 
     }
 
@@ -493,9 +492,17 @@ function Play() {
   //useEffect for stopping timer when player wins
   useEffect(() =>{
 
-    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol)
-      clearInterval(intervalRef.current);
+    if (CurrentPosition.Row === TreasureRoom.TreasureRow && CurrentPosition.Col === TreasureRoom.TreasureCol){
 
+    clearInterval(intervalRef.current);
+
+    // sends time to server
+    axios.post('http://localhost:3001/updatetime', {
+      username: username,
+      time: Seconds
+    })
+
+    }
   }, [CurrentPosition])
 
 
@@ -539,7 +546,7 @@ function Play() {
 
       <div className = 'Homediv'>
         
-       <button className = 'HomeButton' onClick = {() => navigate('/home')}>
+       <button className = 'HomeButton' onClick = {() => { navigate('/home'); setMuted(true)}}>
           <IoHome />
         </button>
 
