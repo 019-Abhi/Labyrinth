@@ -162,15 +162,15 @@ function Play() {
 
     const doors = {
 
-      // UpDoor: Math.random() < 0.5,
-      // DownDoor: Math.random() < 0.5, 
-      // LeftDoor: Math.random() < 0.5,
-      // RightDoor: Math.random() < 0.5
+      UpDoor: Math.random() < 0.5,
+      DownDoor: Math.random() < 0.5, 
+      LeftDoor: Math.random() < 0.5,
+      RightDoor: Math.random() < 0.5
 
-      UpDoor: true,
-      DownDoor: true,
-      LeftDoor: true,
-      RightDoor: true   
+      // UpDoor: true,
+      // DownDoor: true,
+      // LeftDoor: true,
+      // RightDoor: true   
 
     }
 
