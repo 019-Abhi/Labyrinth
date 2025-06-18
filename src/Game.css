@@ -386,7 +386,7 @@ body {
 
 }
 
-.HelpWindow, .WinnerWindow, .LoserWindow {
+.HelpWindow, .WinnerWindow, .LoserWindow, .CharacterSelectorWindow {
 
   height: 64vh;
   width: 77.77vh;
@@ -396,6 +396,13 @@ body {
   border-radius: 1.5rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
   padding: 2rem;
+
+}
+
+.CharacterSelectorWindow{
+
+  width: 20vw;
+  height: 40vh;
 
 }
 
@@ -604,6 +611,7 @@ body {
 }
 
 .HomeButton {
+
   all: unset; 
 
   height: 100%;
@@ -619,6 +627,65 @@ body {
   cursor: pointer;
 
 }
+
+.CharacterSelectorDiv{
+
+  position: fixed;
+  top: 2vh;
+  left: 17.2vw;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease;
+
+  height: 5vh;
+  width: 13vw; 
+  padding: 0.1rem 0.1rem;
+
+  border-radius: 8px;
+  border: 2px solid #5c3d2e; 
+  background-color: rgb(190, 157, 99);   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+
+}
+
+.CharacterSelector{
+
+  all: unset; 
+
+  height: 100%;
+  width: 100%;
+  color: #f8f4e3; 
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+}
+
+.CharacterSelector:focus,
+.CharacterSelector:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+ 
+select {
+  
+  text-align: center;
+  text-align-last: center; 
+
+}
+
 
 .AudioDiv{
 

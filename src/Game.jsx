@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Game.css';
 import confetti from 'canvas-confetti';
 import { FaVolumeXmark, FaZ } from "react-icons/fa6";
@@ -16,7 +16,7 @@ function Play() {
     "Col": 5
   };
   
-  //Creates a random treasure room qazswxedcrfvjmiweazwsedr qazwsxedrftgbyhnujiloppo wsertybunjiklopolytrswzaa aezwsxwqcdvtfbyinhwz asxrtfgnoijnopljfxwzq awsedcrftaqzwsedrfgawsexdr rfvbgyunhiwsedrfswxe qazwsxertbynmikwsxe lppolkmnjuhgfrrdeeszaq zawsedrftgbyhnujmilplpk azqswxedcrfvtgbyhunjimkol azwsxfsedrftgyhnujiopolkmmnhfd xszaqazwsedrcfvtbyumkimlop qazwsexrfvtgyhujilppolanh zaqsxwdevfrbtgjuplokever ijmuhnydcexaqzswcrtkilop
+  //Creates a random treasure room 
   function TreasureRowColGenerator() {
 
     const TreasureRow = Math.floor(Math.random() * 11);
@@ -48,16 +48,18 @@ function Play() {
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(30);
+  const [Seconds, setSeconds] = useState(50);    
   const intervalRef = useRef(null);
-  const [AllowMovement, setAllowMovement] = useState(true);
-  const [Muted, setMuted] = useState(false);
+  const [AllowMovement, setAllowMovement] = useState(true);    
+  const [Muted, setMuted] = useState(false);  
   const AudioRef = useRef(new Audio(BgMusic));
   const location = useLocation();
   const username = location.state?.username || 'Guest';
   const navigate = useNavigate();
+  const [CharacterSelectorPopup, setCharacterSelectorPopup] = useState(null);
 
-  const CharacterEmoji = '🐶';
+  const [CharacterEmoji, setCharacterEmoji] = useState('🐶');
+
   const rows = 11;
   const cols = 11; 
 
@@ -67,7 +69,7 @@ function Play() {
 
     let currentRow = InitialRow;
     let currentCol = InitialCol;
-
+ 
     // Object to hold door states along the treasure path
     const pathDoors = {};
 
@@ -155,7 +157,7 @@ function Play() {
     const RandomIndex = Math.floor(Math.random() * FloorList.length);
     return FloorList[RandomIndex];
 
-  };
+  };   
 
   //And a door selector randomizer
   function DoorSelector(FixedDoorinNewRoom, CurrentRow, CurrentCol, EntireDoorsState = {}) {
@@ -355,7 +357,6 @@ function Play() {
         setVisitedRooms(prevVisited => new Set([...prevVisited, `${newPosition.Row}-${newPosition.Col}`]))
 
 
-
         //To assign new floor layout for new rooms and keep old floor layouts for previously visited rooms; also updates neighboring rooms to have doors if thec current room has a door into them
         setFloors(prev => {
 
@@ -544,6 +545,15 @@ function Play() {
 
       </div>
 
+      <div className = 'CharacterSelectorDiv'>
+
+        <button className = 'CharacterSelector' onClick = {() => setCharacterSelectorPopup(true)}>
+          Character: &nbsp; {CharacterEmoji}
+        </button>
+
+      </div>  
+
+  
       <div className = 'Homediv'>
         
        <button className = 'HomeButton' onClick = {() => { navigate('/home'); setMuted(true)}}>
@@ -656,7 +666,42 @@ function Play() {
           
         )}
 
+        {/* Loser Popup */}
+        {CharacterSelectorPopup && (
 
+          <div className = 'JustToCenterWinnerWindow' >
+            <div className = 'CharacterSelectorWindow'>
+
+              <h1 className = 'WinnerText'>
+
+                Select Character: 
+
+              </h1>
+          
+              <div className = 'WinnerCancelButtonWrapper' style={{ display: 'flex', flexDirection: 'column' }}>
+
+                <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🐱'); setCharacterSelectorPopup(false)}}>
+                  Cat 🐱
+                </button> <br />
+
+                <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🐶'); setCharacterSelectorPopup(false)}}>
+                  Dog 🐶
+                </button> <br />
+
+                <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🧙'); setCharacterSelectorPopup(false)}}>
+                  Wizard 🧙
+                </button> <br />
+
+                <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🧛'); setCharacterSelectorPopup(false)}}>
+                  Vampire 🧛
+                </button> <br />
+
+              </div>
+
+            </div>
+          </div>
+          
+        )}
 
 
         {/* Grid and printing rooms */}
@@ -699,7 +744,7 @@ function Play() {
 
               );
 
-
+ 
             })
           )}
         </div>
