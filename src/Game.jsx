@@ -48,7 +48,7 @@ function Play() {
   const [WinnerPopup, setWinnerPopup] = useState(false);
   const [LoserPopup, setLoserPopup] = useState(false)
   const [ValueForUseEffect, setValueForUseEffect] = useState(1);
-  const [Seconds, setSeconds] = useState(50);    
+  const [Seconds, setSeconds] = useState(30);
   const intervalRef = useRef(null);
   const [AllowMovement, setAllowMovement] = useState(true);    
   const [Muted, setMuted] = useState(false);  
@@ -686,7 +686,7 @@ function Play() {
 
                 <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🐶'); setCharacterSelectorPopup(false)}}>
                   Dog 🐶
-                </button> <br />
+                </button> <br />    
 
                 <button className = 'LoserPlayAgainButton' onClick = {() => {setCharacterEmoji('🧙'); setCharacterSelectorPopup(false)}}>
                   Wizard 🧙
